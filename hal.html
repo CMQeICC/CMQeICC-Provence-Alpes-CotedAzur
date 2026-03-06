@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CMQeICC — Publications scientifiques HAL</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+    :root {
+      --rose-vif: #e6007e; --rose-doux: #e29fc5; --rose-pale: #fce8f3;
+      --rose-tres-pale: #fdf4f9; --gris-texte: #2d2d2d; --gris-moyen: #666;
+      --gris-clair: #f5f5f5; --blanc: #ffffff; --bordure: #e8e8e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--blanc); color: var(--gris-texte); line-height: 1.6; }
+
+    /* HEADER */
+    header { background: var(--blanc); border-bottom: 3px solid var(--rose-vif); padding: 0 40px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(230,0,126,0.08); }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--rose-vif); text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--gris-texte); font-weight: 400; font-size: 13px; display: block; margin-top: -4px; }
+    nav { display: flex; gap: 4px; }
+    nav a { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--gris-moyen); text-decoration: none; transition: all .2s; }
+    nav a:hover { background: var(--rose-pale); color: var(--rose-vif); }
+    nav a.active { background: var(--rose-vif); color: white; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, var(--rose-tres-pale) 0%, var(--blanc) 60%); border-bottom: 1px solid var(--bordure); padding: 48px 40px 36px; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; }
+    .hero-tag { display: inline-block; background: var(--rose-pale); color: var(--rose-vif); font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; text-transform: uppercase; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--gris-texte); line-height: 1.2; margin-bottom: 12px; max-width: 700px; }
+    .hero h1 em { color: var(--rose-vif); font-style: normal; }
+    .hero p { font-size: 15px; color: var(--gris-moyen); max-width: 620px; font-weight: 300; }
+
+    /* TABS */
+    .tabs-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 40px 0; }
+    .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--bordure); }
+    .tab { padding: 10px 20px; border: none; background: none; font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600; color: var(--gris-moyen); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
+    .tab:hover { color: var(--rose-vif); }
+    .tab.active { color: var(--rose-vif); border-bottom-color: var(--rose-vif); }
+
+    /* SECTION */
+    .section { max-width: 1200px; margin: 0 auto; padding: 28px 40px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* GUIDE */
+    .guide { background: var(--rose-tres-pale); border: 1px solid var(--rose-doux); border-radius: 10px; padding: 18px 22px; margin-bottom: 22px; }
+    .guide-title { font-size: 13px; font-weight: 700; color: var(--rose-vif); margin-bottom: 8px; }
+    .guide p, .guide li { font-size: 13px; color: var(--gris-moyen); line-height: 1.6; }
+    .guide ul, .guide ol { padding-left: 18px; }
+    .guide li { margin-bottom: 4px; }
+
+    /* FORMULAIRE DE RECHERCHE */
+    .search-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .search-input { flex: 1; min-width: 200px; padding: 10px 16px; border: 2px solid var(--bordure); border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gris-texte); transition: border-color .2s; }
+    .search-input:focus { outline: none; border-color: var(--rose-vif); }
+    select.search-input { cursor: pointer; }
+    .btn-primary { padding: 10px 24px; background: var(--rose-vif); color: white; border: none; border-radius: 8px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600; transition: background .2s; white-space: nowrap; }
+    .btn-primary:hover { background: #c4006b; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary { padding: 10px 18px; background: var(--blanc); color: var(--rose-vif); border: 2px solid var(--rose-doux); border-radius: 8px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600; transition: all .2s; }
+    .btn-secondary:hover { background: var(--rose-pale); }
+
+    /* TAGS MOTS-CLÉS */
+    .keywords-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .kw-tag { padding: 4px 12px; background: var(--rose-pale); color: var(--rose-vif); border: 1px solid var(--rose-doux); border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; user-select: none; }
+    .kw-tag:hover, .kw-tag.active { background: var(--rose-vif); color: white; border-color: var(--rose-vif); }
+
+    /* STATS */
+    .stats-bar { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+    .stat-box { background: var(--rose-tres-pale); border: 1px solid var(--rose-doux); border-radius: 8px; padding: 12px 20px; text-align: center; }
+    .stat-box .num { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--rose-vif); }
+    .stat-box .lbl { font-size: 11px; color: var(--gris-moyen); margin-top: 2px; }
+
+    /* RÉSULTATS */
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+    .results-count { font-size: 13px; color: var(--gris-moyen); }
+    .results-count strong { color: var(--rose-vif); }
+
+    .pub-card { background: var(--blanc); border: 1px solid var(--bordure); border-radius: 10px; padding: 20px; margin-bottom: 12px; transition: box-shadow .2s, border-color .2s; }
+    .pub-card:hover { box-shadow: 0 4px 16px rgba(230,0,126,0.08); border-color: var(--rose-doux); }
+    .pub-title { font-size: 15px; font-weight: 700; color: var(--gris-texte); margin-bottom: 6px; line-height: 1.4; }
+    .pub-title a { color: inherit; text-decoration: none; }
+    .pub-title a:hover { color: var(--rose-vif); }
+    .pub-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .pub-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .badge-date { background: var(--gris-clair); color: var(--gris-moyen); }
+    .badge-type { background: var(--rose-pale); color: var(--rose-vif); }
+    .badge-domain { background: #e8f4f8; color: #1a6b8a; }
+    .pub-authors { font-size: 12px; color: var(--gris-moyen); margin-bottom: 6px; }
+    .pub-abstract { font-size: 13px; color: #555; line-height: 1.6; max-height: 80px; overflow: hidden; position: relative; }
+    .pub-abstract.expanded { max-height: none; }
+    .pub-abstract::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px; background: linear-gradient(transparent, white); pointer-events: none; }
+    .pub-abstract.expanded::after { display: none; }
+    .pub-actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .pub-link { font-size: 12px; font-weight: 600; color: var(--rose-vif); text-decoration: none; }
+    .pub-link:hover { text-decoration: underline; }
+    .expand-btn { font-size: 12px; color: var(--gris-moyen); background: none; border: none; cursor: pointer; padding: 0; }
+    .expand-btn:hover { color: var(--rose-vif); }
+
+    /* LABOS */
+    .labos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .labo-tag { padding: 8px 14px; background: var(--blanc); border: 2px solid var(--bordure); border-radius: 8px; font-size: 12px; cursor: pointer; transition: all .2s; display: flex; justify-content: space-between; align-items: center; }
+    .labo-tag:hover { border-color: var(--rose-doux); background: var(--rose-tres-pale); }
+    .labo-tag.active { border-color: var(--rose-vif); background: var(--rose-pale); }
+    .labo-tag .sigle { font-weight: 700; color: var(--rose-vif); }
+    .labo-tag .univ { font-size: 10px; color: var(--gris-moyen); }
+
+    /* PAGINATION */
+    .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 24px; flex-wrap: wrap; }
+    .page-btn { padding: 6px 14px; border: 1px solid var(--bordure); border-radius: 6px; background: var(--blanc); color: var(--gris-moyen); font-size: 13px; cursor: pointer; transition: all .2s; font-family: 'Source Sans 3', sans-serif; }
+    .page-btn:hover, .page-btn.active { background: var(--rose-vif); color: white; border-color: var(--rose-vif); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* LOADING */
+    .loading { text-align: center; padding: 40px; color: var(--gris-moyen); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--rose-pale); border-top-color: var(--rose-vif); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty { text-align: center; padding: 48px; color: var(--gris-moyen); }
+    .empty .icon { font-size: 40px; margin-bottom: 12px; }
+    .error { background: #fdecea; border: 1px solid #f5c6cb; border-radius: 8px; padding: 12px 16px; color: #c0392b; font-size: 13px; margin-bottom: 16px; }
+
+    footer { background: var(--gris-clair); border-top: 1px solid var(--bordure); padding: 24px 40px; margin-top: 40px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer p { font-size: 12px; color: var(--gris-moyen); }
+    footer a { color: var(--rose-vif); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header, .hero, .section, .tabs-wrap, footer { padding-left: 16px; padding-right: 16px; }
+      .hero h1 { font-size: 24px; }
+      .tabs { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">CMQeICC
+      <span>Carrefour des Métiers, Qualifications et emplois des ICC</span>
+    </a>
+    <nav>
+      <a href="index.html">Entreprises</a>
+      <a href="hal.html" class="active">Publications HAL</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Veille scientifique · HAL Archives Ouvertes</div>
+    <h1>Publications scientifiques sur les <em>Industries Culturelles et Créatives</em></h1>
+    <p>Explorez la littérature académique sur les ICC : recherche thématique mondiale, productions des laboratoires de Provence-Alpes-Côte d'Azur, et veille par revues spécialisées.</p>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('thematique')">🔍 Recherche thématique</button>
+    <button class="tab" onclick="switchTab('labos')">🏛️ Labos Provence-Alpes-Côte d'Azur</button>
+    <button class="tab" onclick="switchTab('revues')">📰 Veille par revues</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ONGLET 1 : RECHERCHE THÉMATIQUE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+<div id="tab-thematique" class="tab-content active">
+
+  <div class="guide">
+    <div class="guide-title">💡 Recherche thématique libre</div>
+    <p>Recherchez dans l'ensemble des publications HAL sans filtre géographique. Cliquez sur un mot-clé suggéré ou tapez votre propre requête. Les résultats couvrent toutes les disciplines : économie, droit, gestion, SHS, sciences de l'information...</p>
+  </div>
+
+  <div class="keywords-wrap" id="kw-tags">
+    <span class="kw-tag" onclick="toggleKw(this, 'industries culturelles')">industries culturelles</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'industries créatives')">industries créatives</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'économie créative')">économie créative</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'économie culturelle')">économie culturelle</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'creative industries')">creative industries</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'cultural economy')">cultural economy</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'spectacle vivant')">spectacle vivant</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'patrimoine culturel')">patrimoine culturel</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'jeux vidéo')">jeux vidéo</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'audiovisuel')">audiovisuel</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'architecture')">architecture</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'design')">design</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'édition')">édition</span>
+    <span class="kw-tag" onclick="toggleKw(this, 'musique')">musique</span>
+  </div>
+
+  <div class="search-row">
+    <input type="text" class="search-input" id="q-thematique" placeholder="Ex: industries culturelles Méditerranée" value="industries culturelles" onkeydown="if(event.key==='Enter') searchThematique()"/>
+    <select class="search-input" id="type-thematique" style="max-width:180px">
+      <option value="">Tous types</option>
+      <option value="ART">Articles</option>
+      <option value="THESE">Thèses</option>
+      <option value="COMM">Communications</option>
+      <option value="OUV">Ouvrages</option>
+      <option value="COUV">Chapitres</option>
+      <option value="REPORT">Rapports</option>
+    </select>
+    <select class="search-input" id="annee-thematique" style="max-width:140px">
+      <option value="">Toutes années</option>
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+      <option value="2020">2020-2021</option>
+      <option value="2015">2015-2019</option>
+    </select>
+    <button class="btn-primary" id="btn-thematique" onclick="searchThematique()">Rechercher</button>
+  </div>
+
+  <div id="stats-thematique" class="stats-bar" style="display:none"></div>
+  <div id="results-thematique"></div>
+  <div id="pagination-thematique" class="pagination"></div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ONGLET 2 : LABOS PACA -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="tab-labos" class="tab-content">
+
+  <div class="guide">
+    <div class="guide-title">💡 Productions scientifiques des laboratoires de Provence-Alpes-Côte d'Azur</div>
+    <p>Sélectionnez un ou plusieurs laboratoires pour explorer leurs publications. Combinez avec des mots-clés pour filtrer sur les ICC. Les laboratoires sont issus du périmètre CMQeICC.</p>
+  </div>
+
+  <div class="labos-grid" id="labos-grid"></div>
+
+  <div class="search-row">
+    <input type="text" class="search-input" id="q-labos" placeholder="Filtrer par mots-clés (optionnel)" onkeydown="if(event.key==='Enter') searchLabos()"/>
+    <button class="btn-primary" onclick="searchLabos()">Rechercher</button>
+    <button class="btn-secondary" onclick="clearLabos()">Tout décocher</button>
+  </div>
+
+  <div id="stats-labos" class="stats-bar" style="display:none"></div>
+  <div id="results-labos"></div>
+  <div id="pagination-labos" class="pagination"></div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ONGLET 3 : VEILLE REVUES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="tab-revues" class="tab-content">
+
+  <div class="guide">
+    <div class="guide-title">💡 Veille par revues spécialisées ICC</div>
+    <p>Suivez les dernières publications des revues académiques spécialisées sur les ICC. Cliquez sur une revue pour afficher ses 20 dernières publications déposées dans HAL.</p>
+  </div>
+
+  <div class="keywords-wrap">
+    <span class="kw-tag" onclick="searchRevue('Culture études', this)">Culture Études (DEPS)</span>
+    <span class="kw-tag" onclick="searchRevue('Revue d\\'économie régionale', this)">Revue d'Éco. Régionale</span>
+    <span class="kw-tag" onclick="searchRevue('Questions de communication', this)">Questions de communication</span>
+    <span class="kw-tag" onclick="searchRevue('Hermès', this)">Hermès (CNRS)</span>
+    <span class="kw-tag" onclick="searchRevue('Géographie économie société', this)">Géographie Éco. Société</span>
+    <span class="kw-tag" onclick="searchRevue('Management & Avenir', this)">Management & Avenir</span>
+    <span class="kw-tag" onclick="searchRevue('Cahiers du numérique', this)">Cahiers du numérique</span>
+    <span class="kw-tag" onclick="searchRevue('MEI médiation information', this)">MEI</span>
+    <span class="kw-tag" onclick="searchRevue('Sociologie de l\\'art', this)">Sociologie de l'art</span>
+    <span class="kw-tag" onclick="searchRevue('Journal of Cultural Economics', this)">Journal of Cultural Economics</span>
+  </div>
+
+  <div id="stats-revues" class="stats-bar" style="display:none"></div>
+  <div id="results-revues">
+    <div class="empty"><div class="icon">📰</div><p>Sélectionnez une revue ci-dessus</p></div>
+  </div>
+
+</div>
+</div><!-- /section -->
+
+<footer>
+  <div class="footer-inner">
+    <p>© CMQeICC · Provence-Alpes-Côte d'Azur · Données : <a href="https://hal.science" target="_blank">HAL Science Ouverte</a></p>
+    <p><a href="https://api.archives-ouvertes.fr/docs/search" target="_blank">Documentation API HAL</a> · <a href="index.html">← Retour aux entreprises</a></p>
+  </div>
+</footer>
+
+<script>
+// ── Données laboratoires ──────────────────────────────────────────────────────
+const LABOS = [
+  { sigle:"LESA",    nom:"Laboratoire d'Etudes en Sciences des Arts",           univ:"AMU",     acronym:"LESA" },
+  { sigle:"LEST",    nom:"Laboratoire d'Economie et de Sociologie du Travail",  univ:"AMU",     acronym:"LEST" },
+  { sigle:"PRISM",   nom:"Perceptions, Représentations, Image, Son, Musique",   univ:"AMU",     acronym:"PRISM" },
+  { sigle:"LID2MS",  nom:"Droit des Médias et des Mutations Sociales",          univ:"AMU",     acronym:"LID2MS" },
+  { sigle:"IMSIC",   nom:"Institut Médit. des Sciences de l'Info. et de la Com.",univ:"Toulon/AMU",acronym:"IMSIC" },
+  { sigle:"CNE",     nom:"Centre Norbert Elias",                                univ:"AMU/Avignon",acronym:"CENTRE-NORBERT-ELIAS" },
+  { sigle:"CERGAM",  nom:"Centre d'Etudes et de Recherche en Gestion",          univ:"AMU/Toulon",acronym:"CERGAM" },
+  { sigle:"TELEMMe", nom:"Temps, Espaces, Langages, Europe Méridionale",        univ:"AMU",     acronym:"TELEMME" },
+  { sigle:"MESOPOLHIS",nom:"Sociologie, Science politique et Histoire",         univ:"AMU",     acronym:"MESOPOLHIS" },
+  { sigle:"CIELAM",  nom:"Centre Interdisciplinaire Littératures d'Aix-Marseille",univ:"AMU",   acronym:"CIELAM" },
+  { sigle:"IDEAS",   nom:"Institut d'Ethnologie et d'Anthropologie Sociale",    univ:"AMU",     acronym:"IDEAS" },
+  { sigle:"GREDEG",  nom:"Groupe de Recherche en Droit, Economie et Gestion",   univ:"UCA",     acronym:"GREDEG" },
+  { sigle:"GRM",     nom:"Groupe de Recherche en Management",                   univ:"UCA",     acronym:"GRM" },
+  { sigle:"LIRCES",  nom:"Laboratoire Interdisciplinaire Récits Cultures Sociétés",univ:"UCA",  acronym:"LIRCES" },
+  { sigle:"SIC.LAB", nom:"Sciences de l'Information et de la Communication",    univ:"UCA",     acronym:"SICLAB" },
+  { sigle:"CTELA",   nom:"Epistémologie de la Littérature et des Arts vivants", univ:"UCA",     acronym:"CTELA" },
+  { sigle:"ERMES",   nom:"Recherche sur les Mutations de l'Europe et ses Sociétés",univ:"UCA",  acronym:"ERMES" },
+  { sigle:"ICTT",    nom:"Identité Culturelle, Textes et Théâtralité",          univ:"Avignon", acronym:"ICTT" },
+  { sigle:".JPEG",   nom:"Sciences Juridiques, Politique, Economiques et Gestion",univ:"Avignon",acronym:"JPEG" },
+  { sigle:"LEAD",    nom:"Laboratoire d'Economie Appliquée au Développement",   univ:"Toulon",  acronym:"LEAD" },
+  { sigle:"BABEL",   nom:"Laboratoire Babel",                                    univ:"Toulon",  acronym:"BABEL" },
+];
+
+let selectedLabos = new Set();
+let currentPage = { thematique: 1, labos: 1 };
+const ROWS = 10;
+
+// ── Navigation onglets ────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'labos' && document.getElementById('labos-grid').children.length === 0) buildLabosGrid();
+}
+
+// ── Construction grille labos ─────────────────────────────────────────────────
+function buildLabosGrid() {
+  const grid = document.getElementById('labos-grid');
+  grid.innerHTML = LABOS.map(l => `
+    <div class="labo-tag" onclick="toggleLabo(this,'${l.acronym}')" data-acronym="${l.acronym}">
+      <div>
+        <span class="sigle">${l.sigle}</span>
+        <div style="font-size:11px;color:#888;margin-top:2px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.nom}</div>
+      </div>
+      <span class="univ" style="background:var(--rose-pale);color:var(--rose-vif);padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;white-space:nowrap">${l.univ}</span>
+    </div>
+  `).join('');
+}
+
+function toggleLabo(el, acronym) {
+  if (selectedLabos.has(acronym)) { selectedLabos.delete(acronym); el.classList.remove('active'); }
+  else { selectedLabos.add(acronym); el.classList.add('active'); }
+}
+
+function clearLabos() {
+  selectedLabos.clear();
+  document.querySelectorAll('.labo-tag').forEach(el => el.classList.remove('active'));
+}
+
+// ── Mots-clés suggérés ────────────────────────────────────────────────────────
+function toggleKw(el, kw) {
+  const input = document.getElementById('q-thematique');
+  if (el.classList.contains('active')) {
+    el.classList.remove('active');
+    input.value = input.value.replace(kw, '').replace(/\s+/g, ' ').trim();
+  } else {
+    el.classList.add('active');
+    const cur = input.value.trim();
+    input.value = cur ? cur + ' OR ' + kw : kw;
+  }
+}
+
+// ── Appel API HAL ─────────────────────────────────────────────────────────────
+async function halSearch({ q, fq = [], rows = ROWS, start = 0 }) {
+  let url = `https://api.archives-ouvertes.fr/search/?q=${encodeURIComponent(q)}&rows=${rows}&start=${start}&wt=json&fl=halId_s,title_s,authFullName_s,producedDate_tdate,docType_s,domainAllCode_s,abstract_s,uri_s,journalTitle_s&sort=producedDate_tdate desc`;
+  for (const f of fq) url += `&fq=${encodeURIComponent(f)}`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error('Erreur API HAL : ' + resp.status);
+  const data = await resp.json();
+  return data.response;
+}
+
+// ── Recherche thématique ──────────────────────────────────────────────────────
+async function searchThematique(page = 1) {
+  const q = document.getElementById('q-thematique').value.trim() || '*';
+  const type = document.getElementById('type-thematique').value;
+  const annee = document.getElementById('annee-thematique').value;
+  currentPage.thematique = page;
+
+  const fq = [];
+  if (type) fq.push(`docType_s:${type}`);
+  if (annee) {
+    const fin = annee === '2015' ? 2019 : annee === '2020' ? 2021 : parseInt(annee);
+    const deb = annee === '2015' ? 2015 : annee === '2020' ? 2020 : parseInt(annee);
+    fq.push(`producedDate_tdate:[${deb}-01-01T00:00:00Z TO ${fin}-12-31T23:59:59Z]`);
+  }
+
+  const btn = document.getElementById('btn-thematique');
+  btn.disabled = true; btn.textContent = '⟳ Recherche…';
+  document.getElementById('results-thematique').innerHTML = loadingHTML();
+  document.getElementById('stats-thematique').style.display = 'none';
+
+  try {
+    const res = await halSearch({ q, fq, rows: ROWS, start: (page-1)*ROWS });
+    renderStats('thematique', res.numFound, page);
+    renderResults('thematique', res.docs, res.numFound, page);
+  } catch(e) {
+    document.getElementById('results-thematique').innerHTML = `<div class="error">⚠ ${e.message}</div>`;
+  }
+  btn.disabled = false; btn.textContent = 'Rechercher';
+}
+
+// ── Recherche labos ────────────────────────────────────────────────────────────
+async function searchLabos(page = 1) {
+  if (selectedLabos.size === 0) {
+    document.getElementById('results-labos').innerHTML = `<div class="empty"><div class="icon">🏛️</div><p>Sélectionnez au moins un laboratoire</p></div>`;
+    return;
+  }
+  currentPage.labos = page;
+  const q = document.getElementById('q-labos').value.trim() || '*';
+  const structFilter = [...selectedLabos].map(a => `structAcronym_s:${a}`).join(' OR ');
+  const fq = [`(${structFilter})`];
+
+  document.getElementById('results-labos').innerHTML = loadingHTML();
+  document.getElementById('stats-labos').style.display = 'none';
+
+  try {
+    const res = await halSearch({ q, fq, rows: ROWS, start: (page-1)*ROWS });
+    renderStats('labos', res.numFound, page);
+    renderResults('labos', res.docs, res.numFound, page);
+  } catch(e) {
+    document.getElementById('results-labos').innerHTML = `<div class="error">⚠ ${e.message}</div>`;
+  }
+}
+
+// ── Recherche revues ───────────────────────────────────────────────────────────
+async function searchRevue(titre, el) {
+  document.querySelectorAll('#tab-revues .kw-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('results-revues').innerHTML = loadingHTML();
+  document.getElementById('stats-revues').style.display = 'none';
+  try {
+    const res = await halSearch({ q: `journalTitle_s:"${titre}"`, rows: 20, start: 0 });
+    renderStats('revues', res.numFound, 1);
+    renderResults('revues', res.docs, res.numFound, 1, false);
+  } catch(e) {
+    document.getElementById('results-revues').innerHTML = `<div class="error">⚠ ${e.message}</div>`;
+  }
+}
+
+// ── Rendu ─────────────────────────────────────────────────────────────────────
+const DOC_TYPES = { ART:"Article", THESE:"Thèse", COMM:"Communication", OUV:"Ouvrage", COUV:"Chapitre", REPORT:"Rapport", OTHER:"Autre" };
+
+function loadingHTML() {
+  return `<div class="loading"><div class="spinner"></div><p>Interrogation de HAL en cours…</p></div>`;
+}
+
+function renderStats(tab, total, page) {
+  const el = document.getElementById('stats-' + tab);
+  el.style.display = 'flex';
+  el.innerHTML = `
+    <div class="stat-box"><div class="num">${total.toLocaleString('fr-FR')}</div><div class="lbl">publications trouvées</div></div>
+    <div class="stat-box"><div class="num">${Math.ceil(total/ROWS).toLocaleString('fr-FR')}</div><div class="lbl">pages de résultats</div></div>
+    <div class="stat-box"><div class="num">${page}</div><div class="lbl">page actuelle</div></div>
+  `;
+}
+
+function renderResults(tab, docs, total, page, showPagination = true) {
+  const el = document.getElementById('results-' + tab);
+  if (!docs || docs.length === 0) {
+    el.innerHTML = `<div class="empty"><div class="icon">🔍</div><p>Aucune publication trouvée</p><p style="font-size:12px;margin-top:6px">Essayez d'autres mots-clés ou élargissez les filtres</p></div>`;
+    return;
+  }
+
+  const start = (page-1)*ROWS + 1;
+  el.innerHTML = `
+    <div class="results-header">
+      <div class="results-count">Résultats <strong>${start}</strong> – <strong>${Math.min(start+docs.length-1, total)}</strong> sur <strong>${total.toLocaleString('fr-FR')}</strong></div>
+    </div>
+    ${docs.map((doc, i) => renderCard(doc, start+i)).join('')}
+  `;
+
+  if (showPagination) renderPagination(tab, total, page);
+}
+
+function renderCard(doc, n) {
+  const title = (doc.title_s?.[0] || 'Sans titre');
+  const authors = (doc.authFullName_s || []).slice(0, 5).join(', ') + ((doc.authFullName_s?.length > 5) ? ' et al.' : '');
+  const year = doc.producedDate_tdate ? new Date(doc.producedDate_tdate).getFullYear() : '?';
+  const type = DOC_TYPES[doc.docType_s] || doc.docType_s || '?';
+  const abstract = doc.abstract_s?.[0] || '';
+  const domains = (doc.domainAllCode_s || []).slice(0,3).map(d => `<span class="pub-badge badge-domain">${d}</span>`).join('');
+  const journal = doc.journalTitle_s ? `<span style="font-size:12px;color:var(--gris-moyen);font-style:italic">${doc.journalTitle_s}</span>` : '';
+
+  return `
+    <div class="pub-card">
+      <div class="pub-title"><a href="${doc.uri_s}" target="_blank">${title}</a></div>
+      <div class="pub-meta">
+        <span class="pub-badge badge-date">📅 ${year}</span>
+        <span class="pub-badge badge-type">${type}</span>
+        ${domains}
+      </div>
+      ${authors ? `<div class="pub-authors">✍️ ${authors}</div>` : ''}
+      ${journal}
+      ${abstract ? `<div class="pub-abstract" id="abs-${n}">${abstract}</div>` : ''}
+      <div class="pub-actions">
+        ${doc.uri_s ? `<a class="pub-link" href="${doc.uri_s}" target="_blank">→ Voir sur HAL</a>` : ''}
+        ${abstract ? `<button class="expand-btn" onclick="toggleAbstract('abs-${n}', this)">Voir le résumé ▾</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function toggleAbstract(id, btn) {
+  const el = document.getElementById(id);
+  el.classList.toggle('expanded');
+  btn.textContent = el.classList.contains('expanded') ? 'Réduire ▴' : 'Voir le résumé ▾';
+}
+
+function renderPagination(tab, total, page) {
+  const totalPages = Math.min(Math.ceil(total/ROWS), 50);
+  const el = document.getElementById('pagination-' + tab);
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+
+  let html = `<button class="page-btn" onclick="goPage('${tab}',${page-1})" ${page===1?'disabled':''}>←</button>`;
+  const start = Math.max(1, page-2), end = Math.min(totalPages, page+2);
+  if (start > 1) html += `<button class="page-btn" onclick="goPage('${tab}',1)">1</button>${start>2?'<span style="padding:6px">…</span>':''}`;
+  for (let p = start; p <= end; p++) html += `<button class="page-btn ${p===page?'active':''}" onclick="goPage('${tab}',${p})">${p}</button>`;
+  if (end < totalPages) html += `${end<totalPages-1?'<span style="padding:6px">…</span>':''}<button class="page-btn" onclick="goPage('${tab}',${totalPages})">${totalPages}</button>`;
+  html += `<button class="page-btn" onclick="goPage('${tab}',${page+1})" ${page===totalPages?'disabled':''}>→</button>`;
+  el.innerHTML = html;
+}
+
+function goPage(tab, page) {
+  if (tab === 'thematique') searchThematique(page);
+  else if (tab === 'labos') searchLabos(page);
+  window.scrollTo({ top: 400, behavior: 'smooth' });
+}
+
+// Lancer une recherche initiale au chargement
+searchThematique();
+</script>
+</body>
+</html>
