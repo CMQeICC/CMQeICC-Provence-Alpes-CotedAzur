@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CMQeICC — Expertises de recherche ICC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+    :root {
+      --rose-vif: #e6007e; --rose-doux: #e29fc5; --rose-pale: #fce8f3;
+      --rose-tres-pale: #fdf4f9; --gris-texte: #2d2d2d; --gris-moyen: #666;
+      --gris-clair: #f5f5f5; --blanc: #ffffff; --bordure: #e8e8e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--blanc); color: var(--gris-texte); line-height: 1.6; }
+
+    /* HEADER */
+    header { background: var(--blanc); border-bottom: 3px solid var(--rose-vif); padding: 0 40px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(230,0,126,0.08); }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--rose-vif); text-decoration: none; }
+    .logo span { color: var(--gris-texte); font-weight: 400; font-size: 13px; display: block; margin-top: -4px; }
+    nav { display: flex; gap: 4px; }
+    nav a { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--gris-moyen); text-decoration: none; transition: all .2s; }
+    nav a:hover { background: var(--rose-pale); color: var(--rose-vif); }
+    nav a.active { background: var(--rose-vif); color: white; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, var(--rose-tres-pale) 0%, var(--blanc) 60%); border-bottom: 1px solid var(--bordure); padding: 48px 40px 36px; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; }
+    .hero-tag { display: inline-block; background: var(--rose-pale); color: var(--rose-vif); font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; text-transform: uppercase; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--gris-texte); line-height: 1.2; margin-bottom: 12px; max-width: 700px; }
+    .hero h1 em { color: var(--rose-vif); font-style: normal; }
+    .hero p { font-size: 15px; color: var(--gris-moyen); max-width: 660px; font-weight: 300; }
+
+    /* TABS */
+    .tabs-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 40px 0; }
+    .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--bordure); }
+    .tab { padding: 10px 20px; border: none; background: none; font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600; color: var(--gris-moyen); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
+    .tab:hover { color: var(--rose-vif); }
+    .tab.active { color: var(--rose-vif); border-bottom-color: var(--rose-vif); }
+
+    .section { max-width: 1200px; margin: 0 auto; padding: 28px 40px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* GUIDE */
+    .guide { background: var(--rose-tres-pale); border: 1px solid var(--rose-doux); border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; }
+    .guide-title { font-size: 13px; font-weight: 700; color: var(--rose-vif); margin-bottom: 8px; }
+    .guide p { font-size: 13px; color: var(--gris-moyen); line-height: 1.6; }
+
+    /* SECTEURS */
+    .secteurs-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .secteur-btn { padding: 8px 16px; border-radius: 20px; border: 2px solid var(--bordure); background: var(--blanc); font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600; color: var(--gris-moyen); cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px; }
+    .secteur-btn:hover { border-color: var(--rose-doux); color: var(--rose-vif); background: var(--rose-tres-pale); }
+    .secteur-btn.active { border-color: var(--rose-vif); background: var(--rose-vif); color: white; }
+    .secteur-btn.all.active { background: var(--gris-texte); border-color: var(--gris-texte); color: white; }
+
+    /* GRILLE LABOS */
+    .labos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+
+    .labo-card { background: var(--blanc); border: 1px solid var(--bordure); border-radius: 12px; overflow: hidden; transition: box-shadow .2s, border-color .2s; cursor: pointer; }
+    .labo-card:hover { box-shadow: 0 6px 24px rgba(230,0,126,0.1); border-color: var(--rose-doux); }
+    .labo-card-header { padding: 18px 20px 14px; border-bottom: 1px solid var(--bordure); }
+    .labo-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+    .labo-sigle { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--rose-vif); }
+    .labo-univ { font-size: 10px; font-weight: 700; background: var(--rose-pale); color: var(--rose-vif); padding: 3px 10px; border-radius: 10px; white-space: nowrap; }
+    .labo-nom { font-size: 13px; color: var(--gris-moyen); line-height: 1.4; margin-bottom: 10px; }
+    .labo-secteurs { display: flex; flex-wrap: wrap; gap: 4px; }
+    .labo-secteur-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+    .labo-card-body { padding: 14px 20px; }
+    .labo-contact { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .labo-contact a { font-size: 12px; color: var(--rose-vif); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+    .labo-contact a:hover { text-decoration: underline; }
+    .labo-ed { font-size: 11px; color: var(--gris-moyen); background: var(--gris-clair); padding: 4px 10px; border-radius: 6px; display: inline-block; margin-bottom: 12px; }
+    .labo-publi-btn { width: 100%; padding: 8px; background: var(--rose-tres-pale); border: 1px solid var(--rose-doux); border-radius: 8px; color: var(--rose-vif); font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .labo-publi-btn:hover { background: var(--rose-pale); }
+    .labo-publis { margin-top: 12px; display: none; }
+    .labo-publis.open { display: block; }
+    .mini-pub { padding: 8px 0; border-bottom: 1px solid var(--bordure); }
+    .mini-pub:last-child { border-bottom: none; }
+    .mini-pub a { font-size: 12px; font-weight: 600; color: var(--gris-texte); text-decoration: none; line-height: 1.4; display: block; margin-bottom: 2px; }
+    .mini-pub a:hover { color: var(--rose-vif); }
+    .mini-pub-meta { font-size: 11px; color: #aaa; }
+    .mini-loading { text-align: center; padding: 12px; color: var(--gris-moyen); font-size: 12px; }
+    .spinner-sm { width: 16px; height: 16px; border: 2px solid var(--rose-pale); border-top-color: var(--rose-vif); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* RECHERCHE THÉMATIQUE */
+    .search-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .search-input { flex: 1; min-width: 200px; padding: 10px 16px; border: 2px solid var(--bordure); border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gris-texte); transition: border-color .2s; }
+    .search-input:focus { outline: none; border-color: var(--rose-vif); }
+    .btn-primary { padding: 10px 24px; background: var(--rose-vif); color: white; border: none; border-radius: 8px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600; transition: background .2s; }
+    .btn-primary:hover { background: #c4006b; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* RÉSULTATS THÈME */
+    .theme-result { background: var(--blanc); border: 1px solid var(--bordure); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; transition: box-shadow .2s; }
+    .theme-result:hover { box-shadow: 0 4px 16px rgba(230,0,126,0.08); border-color: var(--rose-doux); }
+    .theme-result-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .theme-result-title a { color: var(--gris-texte); text-decoration: none; }
+    .theme-result-title a:hover { color: var(--rose-vif); }
+    .theme-result-meta { font-size: 11px; color: #aaa; display: flex; gap: 12px; flex-wrap: wrap; }
+    .theme-result-authors { font-size: 12px; color: var(--gris-moyen); margin: 4px 0; }
+
+    /* RÉSEAU */
+    #network-canvas { width: 100%; height: 500px; border: 1px solid var(--bordure); border-radius: 12px; background: var(--gris-clair); position: relative; overflow: hidden; }
+    .network-node { position: absolute; transform: translate(-50%, -50%); background: var(--rose-vif); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; cursor: pointer; transition: transform .2s; text-align: center; padding: 4px; line-height: 1.2; box-shadow: 0 2px 8px rgba(230,0,126,0.3); }
+    .network-node:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
+    .network-tooltip { position: absolute; background: white; border: 1px solid var(--bordure); border-radius: 8px; padding: 10px 14px; font-size: 12px; pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.1); max-width: 220px; z-index: 20; display: none; }
+    svg.network-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+    .network-legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gris-moyen); }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+    /* STATS */
+    .stats-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .stat-box { background: var(--rose-tres-pale); border: 1px solid var(--rose-doux); border-radius: 8px; padding: 10px 18px; }
+    .stat-box .num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--rose-vif); }
+    .stat-box .lbl { font-size: 11px; color: var(--gris-moyen); }
+
+    .loading { text-align: center; padding: 40px; color: var(--gris-moyen); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--rose-pale); border-top-color: var(--rose-vif); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 12px; }
+    .empty { text-align: center; padding: 48px; color: var(--gris-moyen); }
+    .empty .icon { font-size: 40px; margin-bottom: 12px; }
+    .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+    .page-btn { padding: 6px 14px; border: 1px solid var(--bordure); border-radius: 6px; background: var(--blanc); color: var(--gris-moyen); font-size: 13px; cursor: pointer; transition: all .2s; font-family: 'Source Sans 3', sans-serif; }
+    .page-btn:hover, .page-btn.active { background: var(--rose-vif); color: white; border-color: var(--rose-vif); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    footer { background: var(--gris-clair); border-top: 1px solid var(--bordure); padding: 24px 40px; margin-top: 40px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer p { font-size: 12px; color: var(--gris-moyen); }
+    footer a { color: var(--rose-vif); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header, .hero, .section, .tabs-wrap, footer { padding-left: 16px; padding-right: 16px; }
+      .hero h1 { font-size: 24px; }
+      .labos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">CMQeICC
+      <span>Carrefour des Métiers, Qualifications et emplois des ICC</span>
+    </a>
+    <nav>
+      <a href="index.html">Entreprises</a>
+      <a href="hal.html">Publications HAL</a>
+      <a href="chercheurs.html" class="active">Expertises de recherche</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Mise en relation · Recherche & Monde socio-économique</div>
+    <h1>Trouver une <em>expertise de recherche</em> sur les ICC en Provence-Alpes-Côte d'Azur</h1>
+    <p>Vous avez un besoin de recherche, un projet de collaboration ou souhaitez consulter des travaux existants ? Trouvez rapidement le laboratoire ou l'expertise qui correspond à votre domaine.</p>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('labos', this)">🏛️ Trouver un laboratoire</button>
+    <button class="tab" onclick="switchTab('theme', this)">🔍 Explorer par thème</button>
+    <button class="tab" onclick="switchTab('reseau', this)">🤝 Réseau de collaborations</button>
+  </div>
+</div>
+
+<div class="section">
+
+<!-- ═══ ONGLET 1 : LABOS ═══ -->
+<div id="tab-labos" class="tab-content active">
+  <div class="guide">
+    <div class="guide-title">💡 Comment utiliser cet onglet ?</div>
+    <p>Filtrez les laboratoires par secteur ICC pour trouver rapidement l'expertise dont vous avez besoin. Cliquez sur "Voir les publications récentes" pour consulter les travaux publiés dans HAL. Les coordonnées officielles sont directement accessibles.</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-box"><div class="num">21</div><div class="lbl">laboratoires</div></div>
+    <div class="stat-box"><div class="num">4</div><div class="lbl">universités</div></div>
+    <div class="stat-box"><div class="num">7</div><div class="lbl">secteurs ICC</div></div>
+  </div>
+
+  <div class="secteurs-wrap">
+    <button class="secteur-btn all active" onclick="filterSecteur('tous', this)">🔬 Tous les laboratoires</button>
+    <button class="secteur-btn" onclick="filterSecteur('economie', this)">📊 Économie & Gestion</button>
+    <button class="secteur-btn" onclick="filterSecteur('droit', this)">⚖️ Droit & Régulation</button>
+    <button class="secteur-btn" onclick="filterSecteur('arts', this)">🎨 Arts & Création</button>
+    <button class="secteur-btn" onclick="filterSecteur('info', this)">📡 Information & Communication</button>
+    <button class="secteur-btn" onclick="filterSecteur('patrimoine', this)">🏛️ Histoire & Patrimoine</button>
+    <button class="secteur-btn" onclick="filterSecteur('social', this)">🌍 Sciences sociales</button>
+    <button class="secteur-btn" onclick="filterSecteur('numerique', this)">💻 Numérique & Innovation</button>
+  </div>
+
+  <div class="labos-grid" id="labos-grid"></div>
+</div>
+
+<!-- ═══ ONGLET 2 : THÈME ═══ -->
+<div id="tab-theme" class="tab-content">
+  <div class="guide">
+    <div class="guide-title">💡 Explorer par thème</div>
+    <p>Décrivez votre besoin en quelques mots — un secteur, une problématique, un type d'entreprise. L'outil recherche dans toutes les publications HAL des laboratoires de Provence-Alpes-Côte d'Azur et vous indique quels laboratoires ont travaillé sur ce sujet.</p>
+  </div>
+
+  <div class="search-row">
+    <input type="text" class="search-input" id="q-theme" placeholder="Ex : financement spectacle vivant, emploi audiovisuel, droit du jeu vidéo..." onkeydown="if(event.key==='Enter') searchTheme()"/>
+    <button class="btn-primary" id="btn-theme" onclick="searchTheme()">Rechercher</button>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
+    <span style="font-size:12px;color:var(--gris-moyen);align-self:center">Suggestions :</span>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('économie du spectacle vivant')">économie du spectacle vivant</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('emploi culturel')">emploi culturel</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('financement culture')">financement culture</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('numérique patrimoine')">numérique patrimoine</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('droit audiovisuel')">droit audiovisuel</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('musique enregistrée')">musique enregistrée</button>
+    <button class="secteur-btn" style="font-size:12px;padding:4px 12px" onclick="quickSearch('innovation créative')">innovation créative</button>
+  </div>
+
+  <div id="results-theme">
+    <div class="empty"><div class="icon">🔍</div><p>Entrez un thème pour explorer la recherche locale</p></div>
+  </div>
+  <div id="pagination-theme" class="pagination"></div>
+</div>
+
+<!-- ═══ ONGLET 3 : RÉSEAU ═══ -->
+<div id="tab-reseau" class="tab-content">
+  <div class="guide">
+    <div class="guide-title">💡 Réseau de collaborations scientifiques</div>
+    <p>Ce graphe représente les liens entre laboratoires de Provence-Alpes-Côte d'Azur basés sur leurs co-publications sur les ICC dans HAL. Plus le lien est épais, plus la collaboration est fréquente. Survolez un nœud pour voir les détails du laboratoire.</p>
+  </div>
+
+  <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn-primary" id="btn-reseau" onclick="buildNetwork()">🔄 Calculer le réseau</button>
+    <select class="search-input" id="reseau-theme" style="max-width:220px">
+      <option value="industries culturelles OR industries créatives">Tous secteurs ICC</option>
+      <option value="spectacle vivant">Spectacle vivant</option>
+      <option value="audiovisuel cinéma">Audiovisuel</option>
+      <option value="patrimoine culturel">Patrimoine</option>
+      <option value="musique">Musique</option>
+      <option value="design architecture">Design & Architecture</option>
+    </select>
+  </div>
+
+  <div id="network-canvas">
+    <div class="empty" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
+      <div class="icon">🤝</div>
+      <p>Cliquez sur "Calculer le réseau" pour visualiser les collaborations</p>
+    </div>
+    <svg class="network-svg" id="network-svg"></svg>
+    <div class="network-tooltip" id="network-tooltip"></div>
+  </div>
+
+  <div class="network-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#e6007e"></div> AMU</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c0307e"></div> Université Côte d'Azur</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d4609e"></div> Avignon Université</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e29fc5"></div> Université de Toulon</div>
+  </div>
+
+  <div id="reseau-details" style="margin-top:20px"></div>
+</div>
+
+</div><!-- /section -->
+
+<footer>
+  <div class="footer-inner">
+    <p>© CMQeICC · Provence-Alpes-Côte d'Azur · Les coordonnées sont issues des données officielles des établissements</p>
+    <p><a href="index.html">Entreprises</a> · <a href="hal.html">Publications HAL</a> · Données : <a href="https://hal.science" target="_blank">HAL Science Ouverte</a></p>
+  </div>
+</footer>
+
+<script>
+// ── Données laboratoires ──────────────────────────────────────────────────────
+const LABOS = [
+  { sigle:"LEST", nom:"Laboratoire d'Economie et de Sociologie du Travail", univ:"AMU", univColor:"#e6007e",
+    secteurs:["economie","social"], label:"UMR 7317", site:"https://lest.fr/fr",
+    ed:["ED 372 — Sciences économiques et de gestion"],
+    desc:"Économie et sociologie du travail, emploi, organisations, marchés du travail dans les secteurs culturels.", acronym:"LEST" },
+  { sigle:"GREDEG", nom:"Groupe de Recherche en Droit, Economie et Gestion", univ:"UCA", univColor:"#c0307e",
+    secteurs:["economie","droit","numerique"], label:"UMR 7321", site:"https://gredeg.univ-cotedazur.fr",
+    ed:["ED DESPEG"],
+    desc:"Économie de l'innovation, droits de propriété intellectuelle, économie numérique et industries créatives.", acronym:"GREDEG" },
+  { sigle:"CERGAM", nom:"Centre d'Etudes et de Recherche en Gestion d'Aix-Marseille", univ:"AMU/Toulon", univColor:"#e6007e",
+    secteurs:["economie"], label:"UR 4225", site:"https://cergam.univ-amu.fr",
+    ed:["ED 372 — Sciences économiques et de gestion"],
+    desc:"Gestion des organisations culturelles, management stratégique, ressources humaines dans les ICC.", acronym:"CERGAM" },
+  { sigle:"LEAD", nom:"Laboratoire d'Economie Appliquée au Développement", univ:"Toulon", univColor:"#e29fc5",
+    secteurs:["economie"], label:"EA 3163", site:"https://lead.univ-tln.fr",
+    ed:["ED 509 — Sociétés méditerranéennes et sciences humaines"],
+    desc:"Économie appliquée au développement local et régional, tourisme culturel, développement territorial.", acronym:"LEAD" },
+  { sigle:".JPEG", nom:"Sciences Juridiques, Politique, Economiques et de Gestion", univ:"Avignon", univColor:"#d4609e",
+    secteurs:["economie","droit"], label:"UPR 3788", site:"https://univ-avignon.fr",
+    ed:["ED 537 — Culture & Patrimoine"],
+    desc:"Droit, économie et gestion appliqués aux secteurs culturels, patrimoniaux et créatifs.", acronym:"JPEG" },
+  { sigle:"GRM", nom:"Groupe de Recherche en Management", univ:"UCA", univColor:"#c0307e",
+    secteurs:["economie"], label:"UPR 4711", site:"https://grm.univ-cotedazur.fr",
+    ed:["ED DESPEG"],
+    desc:"Management international, stratégie des entreprises culturelles et créatives, internationalisation.", acronym:"GRM" },
+  { sigle:"LID2MS", nom:"Laboratoire Interdisciplinaire de Droit des Médias et des Mutations Sociales", univ:"AMU", univColor:"#e6007e",
+    secteurs:["droit"], label:"UR 4328", site:"https://lid2ms.com",
+    ed:["ED 67 — Sciences juridiques et politiques"],
+    desc:"Droit des médias, droit du numérique, régulation des plateformes, propriété intellectuelle dans les ICC.", acronym:"LID2MS" },
+  { sigle:"CERDACFF", nom:"Centre d'Etudes et de Recherche en Droit Administratif, Constitutionnel, Financier et Fiscal", univ:"UCA", univColor:"#c0307e",
+    secteurs:["droit"], label:"UPR 7267", site:"https://cerdacff.univ-cotedazur.fr",
+    ed:["ED DESPEG"],
+    desc:"Droit public, financement public de la culture, régulation administrative des secteurs culturels.", acronym:"CERDACFF" },
+  { sigle:"LESA", nom:"Laboratoire d'Etudes en Sciences des Arts", univ:"AMU", univColor:"#e6007e",
+    secteurs:["arts"], label:"UR 3274", site:"https://lesa.univ-amu.fr",
+    ed:["ED 354 — Langues, lettres et arts"],
+    desc:"Sciences des arts, esthétique, pratiques artistiques contemporaines, arts visuels et performatifs.", acronym:"LESA" },
+  { sigle:"PRISM", nom:"Perceptions, Représentations, Image, Son, Musique", univ:"AMU", univColor:"#e6007e",
+    secteurs:["arts","numerique"], label:"UMR 7061", site:"https://www.prism.cnrs.fr",
+    ed:["ED 354 — Langues, lettres et arts", "ED 184 — Mathématiques et informatique"],
+    desc:"Musicologie, acoustique musicale, technologies sonores, création musicale et numérique.", acronym:"PRISM" },
+  { sigle:"CTELA", nom:"Centre d'Epistémologie de la Littérature et des Arts vivants", univ:"UCA", univColor:"#c0307e",
+    secteurs:["arts"], label:"UPR 6307", site:"https://ctela.univ-cotedazur.fr",
+    ed:["ED SHAL — Sciences Humaines, Arts et Lettres"],
+    desc:"Littérature, arts vivants, théâtre, épistémologie des arts, études culturelles anglophones.", acronym:"CTELA" },
+  { sigle:"ICTT", nom:"Identité Culturelle, Textes et Théâtralité", univ:"Avignon", univColor:"#d4609e",
+    secteurs:["arts"], label:"UPR 4277", site:"http://ictt.univ-avignon.fr",
+    ed:["ED 537 — Culture & Patrimoine"],
+    desc:"Identité culturelle, théâtralité, textes et représentations, littérature et arts de la scène.", acronym:"ICTT" },
+  { sigle:"CIELAM", nom:"Centre Interdisciplinaire d'Etude des Littératures d'Aix-Marseille", univ:"AMU", univColor:"#e6007e",
+    secteurs:["arts"], label:"UR 4235", site:"https://cielam.univ-amu.fr",
+    ed:["ED 354 — Langues, lettres et arts"],
+    desc:"Littératures française et comparée, édition, histoire littéraire, humanités numériques.", acronym:"CIELAM" },
+  { sigle:"IMSIC", nom:"Institut Méditerranéen des Sciences de l'Information et de la Communication", univ:"Toulon/AMU", univColor:"#e29fc5",
+    secteurs:["info"], label:"UR 7492", site:"https://www.imsic.fr",
+    ed:["ED 509 — Sociétés méditerranéennes et sciences humaines"],
+    desc:"Sciences de l'information et de la communication, médias numériques, usages culturels des TIC.", acronym:"IMSIC" },
+  { sigle:"SIC.LAB", nom:"Laboratoire de Recherche en Sciences de l'Information et de la Communication", univ:"UCA", univColor:"#c0307e",
+    secteurs:["info"], label:"UPR 3820", site:"https://siclab.fr",
+    ed:["ED SHAL — Sciences Humaines, Arts et Lettres"],
+    desc:"Journalisme, médias, communication publique, information numérique, industries médiatiques.", acronym:"SICLAB" },
+  { sigle:"LIRCES", nom:"Laboratoire Interdisciplinaire Récits Cultures et Sociétés", univ:"UCA", univColor:"#c0307e",
+    secteurs:["info","social"], label:"UPR 3159", site:"https://lirces.univ-cotedazur.fr",
+    ed:["ED SHAL — Sciences Humaines, Arts et Lettres"],
+    desc:"Récits, cultures, sociétés, études de genre, médias et représentations culturelles.", acronym:"LIRCES" },
+  { sigle:"CNE", nom:"Centre Norbert Elias", univ:"AMU/Avignon", univColor:"#e6007e",
+    secteurs:["patrimoine","social"], label:"UMR 8562", site:"https://centrenorbertelias.cnrs.fr",
+    ed:["ED 355 — Espaces, Cultures, Sociétés", "ED 537 — Culture & Patrimoine"],
+    desc:"Sociologie de la culture, anthropologie des pratiques culturelles, patrimoine immatériel, industries culturelles.", acronym:"CENTRE-NORBERT-ELIAS" },
+  { sigle:"TELEMMe", nom:"Temps, Espaces, Langages, Europe Méridionale, Méditerranée", univ:"AMU", univColor:"#e6007e",
+    secteurs:["patrimoine"], label:"UMR 7303", site:"https://telemme.mmsh.fr",
+    ed:["ED 355 — Espaces, Cultures, Sociétés"],
+    desc:"Histoire culturelle de l'Europe méridionale et de la Méditerranée, patrimoine, mémoire, identités.", acronym:"TELEMME" },
+  { sigle:"MESOPOLHIS", nom:"Centre méditerranéen de sociologie, de science politique et d'histoire", univ:"AMU", univColor:"#e6007e",
+    secteurs:["social","patrimoine"], label:"UMR 7064", site:"https://mesopolhis.fr",
+    ed:["ED 355 — Espaces, Cultures, Sociétés"],
+    desc:"Sociologie, science politique et histoire des sociétés méditerranéennes, politiques culturelles.", acronym:"MESOPOLHIS" },
+  { sigle:"IDEAS", nom:"Institut d'Ethnologie et d'Anthropologie Sociale", univ:"AMU", univColor:"#e6007e",
+    secteurs:["social"], label:"UMR 7307", site:"https://ideas-cnrs.univ-amu.fr",
+    ed:["ED 355 — Espaces, Cultures, Sociétés"],
+    desc:"Anthropologie sociale et culturelle, ethnologie des pratiques culturelles et artistiques.", acronym:"IDEAS" },
+  { sigle:"ESPACE", nom:"Etude des Structures, des Processus d'Adaptation et des Changements de l'Espace", univ:"Avignon", univColor:"#d4609e",
+    secteurs:["social"], label:"UMR 7300", site:"https://www.umrespace.org",
+    ed:["ED 537 — Culture & Patrimoine"],
+    desc:"Géographie culturelle, territoires créatifs, clusters culturels, développement régional par la culture.", acronym:"ESPACE" },
+];
+
+const SECTEUR_LABELS = {
+  tous:"Tous", economie:"Économie & Gestion", droit:"Droit & Régulation",
+  arts:"Arts & Création", info:"Information & Communication",
+  patrimoine:"Histoire & Patrimoine", social:"Sciences sociales", numerique:"Numérique & Innovation"
+};
+
+const SECTEUR_COLORS = {
+  economie:"#1a6b8a", droit:"#7b0000", arts:"#e6007e",
+  info:"#6a1b9a", patrimoine:"#795548", social:"#2e7d32", numerique:"#1565c0"
+};
+
+let currentSecteur = 'tous';
+let themePageCurrent = 1;
+const ROWS = 8;
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Grille labos ──────────────────────────────────────────────────────────────
+function filterSecteur(secteur, btn) {
+  currentSecteur = secteur;
+  document.querySelectorAll('.secteur-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildLabosGrid();
+}
+
+function buildLabosGrid() {
+  const filtered = currentSecteur === 'tous' ? LABOS : LABOS.filter(l => l.secteurs.includes(currentSecteur));
+  const grid = document.getElementById('labos-grid');
+  grid.innerHTML = filtered.map(l => laboCardHTML(l)).join('');
+}
+
+function laboCardHTML(l) {
+  const secteurTags = l.secteurs.map(s =>
+    `<span class="labo-secteur-tag" style="background:${SECTEUR_COLORS[s]}22;color:${SECTEUR_COLORS[s]};border:1px solid ${SECTEUR_COLORS[s]}44">${SECTEUR_LABELS[s]}</span>`
+  ).join('');
+  const eds = l.ed.map(e => `<div class="labo-ed">🎓 ${e}</div>`).join('');
+  return `
+    <div class="labo-card">
+      <div class="labo-card-header">
+        <div class="labo-card-top">
+          <div class="labo-sigle">${l.sigle}</div>
+          <span class="labo-univ" style="background:${l.univColor}22;color:${l.univColor}">${l.univ}</span>
+        </div>
+        <div class="labo-nom">${l.nom} <span style="color:#bbb;font-size:11px">(${l.label})</span></div>
+        <div class="labo-secteurs">${secteurTags}</div>
+      </div>
+      <div class="labo-card-body">
+        <p style="font-size:13px;color:var(--gris-moyen);margin-bottom:12px;line-height:1.5">${l.desc}</p>
+        ${eds}
+        <div class="labo-contact">
+          <a href="${l.site}" target="_blank">🌐 ${l.site.replace('https://','').replace('http://','')}</a>
+        </div>
+        <button class="labo-publi-btn" onclick="togglePublis(this, '${l.acronym}', '${l.sigle}')">
+          📄 Voir les publications récentes dans HAL
+        </button>
+        <div class="labo-publis" id="publis-${l.acronym}"></div>
+      </div>
+    </div>`;
+}
+
+async function togglePublis(btn, acronym, sigle) {
+  const div = document.getElementById('publis-' + acronym);
+  if (div.classList.contains('open')) {
+    div.classList.remove('open');
+    btn.textContent = '📄 Voir les publications récentes dans HAL';
+    return;
+  }
+  div.classList.add('open');
+  btn.textContent = '▲ Masquer les publications';
+  div.innerHTML = `<div class="mini-loading"><span class="spinner-sm"></span>Chargement HAL…</div>`;
+  try {
+    const url = `https://api.archives-ouvertes.fr/search/?q=*&fq=structAcronym_s:${acronym}&rows=5&wt=json&fl=title_s,uri_s,producedDate_tdate,authFullName_s,docType_s&sort=producedDate_tdate desc`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const docs = data.response?.docs || [];
+    if (docs.length === 0) {
+      div.innerHTML = `<p style="font-size:12px;color:#aaa;padding:8px 0">Aucune publication trouvée dans HAL pour ce laboratoire.</p>`;
+      return;
+    }
+    div.innerHTML = docs.map(d => {
+      const year = d.producedDate_tdate ? new Date(d.producedDate_tdate).getFullYear() : '?';
+      const authors = (d.authFullName_s||[]).slice(0,3).join(', ') + (d.authFullName_s?.length>3?' et al.':'');
+      return `<div class="mini-pub">
+        <a href="${d.uri_s}" target="_blank">${d.title_s?.[0]||'Sans titre'}</a>
+        <div class="mini-pub-meta">${year} · ${authors}</div>
+      </div>`;
+    }).join('') + `<div style="text-align:center;margin-top:8px"><a href="hal.html" style="font-size:12px;color:var(--rose-vif);font-weight:600">→ Voir toutes les publications sur HAL</a></div>`;
+  } catch(e) {
+    div.innerHTML = `<p style="font-size:12px;color:#e74c3c;padding:8px 0">Erreur de connexion HAL.</p>`;
+  }
+}
+
+// ── Recherche thématique ──────────────────────────────────────────────────────
+function quickSearch(q) {
+  document.getElementById('q-theme').value = q;
+  searchTheme();
+}
+
+async function searchTheme(page = 1) {
+  const q = document.getElementById('q-theme').value.trim();
+  if (!q) return;
+  themePageCurrent = page;
+  const btn = document.getElementById('btn-theme');
+  btn.disabled = true; btn.textContent = '⟳ Recherche…';
+  document.getElementById('results-theme').innerHTML = `<div class="loading"><div class="spinner"></div><p>Recherche dans les publications des laboratoires PACA…</p></div>`;
+
+  const allAcronyms = LABOS.map(l => `structAcronym_s:${l.acronym}`).join(' OR ');
+  const url = `https://api.archives-ouvertes.fr/search/?q=${encodeURIComponent(q)}&fq=(${encodeURIComponent(allAcronyms)})&rows=${ROWS}&start=${(page-1)*ROWS}&wt=json&fl=title_s,uri_s,producedDate_tdate,authFullName_s,docType_s,structAcronym_s,abstract_s&sort=producedDate_tdate desc`;
+
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const docs = data.response?.docs || [];
+    const total = data.response?.numFound || 0;
+    renderThemeResults(docs, total, q, page);
+  } catch(e) {
+    document.getElementById('results-theme').innerHTML = `<div style="color:#e74c3c;padding:12px">Erreur : ${e.message}</div>`;
+  }
+  btn.disabled = false; btn.textContent = 'Rechercher';
+}
+
+function renderThemeResults(docs, total, q, page) {
+  const el = document.getElementById('results-theme');
+  if (docs.length === 0) {
+    el.innerHTML = `<div class="empty"><div class="icon">🔍</div><p>Aucune publication trouvée pour "<strong>${q}</strong>" dans les laboratoires PACA</p><p style="font-size:13px;margin-top:8px">Essayez des termes plus généraux ou consultez <a href="hal.html" style="color:var(--rose-vif)">la recherche HAL globale</a></p></div>`;
+    return;
+  }
+
+  // Grouper par labo
+  const byLabo = {};
+  docs.forEach(d => {
+    (d.structAcronym_s||['?']).forEach(a => {
+      const labo = LABOS.find(l => l.acronym === a || a.toUpperCase().includes(l.sigle));
+      const key = labo ? labo.sigle : a;
+      if (!byLabo[key]) byLabo[key] = { labo, docs: [] };
+      if (!byLabo[key].docs.find(x => x.uri_s === d.uri_s)) byLabo[key].docs.push(d);
+    });
+  });
+
+  const start = (page-1)*ROWS+1;
+  el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:13px;color:var(--gris-moyen)"><strong style="color:var(--rose-vif)">${total.toLocaleString('fr-FR')}</strong> publications trouvées · résultats ${start}–${Math.min(start+docs.length-1,total)}</div>
+      <div style="font-size:12px;color:var(--gris-moyen)">${Object.keys(byLabo).length} laboratoire(s) concerné(s)</div>
+    </div>
+    ${docs.map(d => {
+      const year = d.producedDate_tdate ? new Date(d.producedDate_tdate).getFullYear() : '?';
+      const authors = (d.authFullName_s||[]).slice(0,4).join(', ') + (d.authFullName_s?.length>4?' et al.':'');
+      const labos = (d.structAcronym_s||[]).filter(a => LABOS.find(l=>l.acronym===a)).slice(0,3);
+      return `<div class="theme-result">
+        <div class="theme-result-title"><a href="${d.uri_s}" target="_blank">${d.title_s?.[0]||'Sans titre'}</a></div>
+        <div class="theme-result-authors">${authors}</div>
+        <div class="theme-result-meta">
+          <span>📅 ${year}</span>
+          ${labos.map(a=>`<span style="color:var(--rose-vif);font-weight:600">🏛️ ${a}</span>`).join('')}
+          ${d.uri_s?`<a href="${d.uri_s}" target="_blank" style="color:var(--rose-vif);font-size:11px;font-weight:600">→ HAL</a>`:''}
+        </div>
+      </div>`;
+    }).join('')}`;
+
+  // Pagination
+  const totalPages = Math.min(Math.ceil(total/ROWS), 30);
+  const pEl = document.getElementById('pagination-theme');
+  if (totalPages <= 1) { pEl.innerHTML=''; return; }
+  let html = `<button class="page-btn" onclick="searchTheme(${page-1})" ${page===1?'disabled':''}>←</button>`;
+  for (let p = Math.max(1,page-2); p <= Math.min(totalPages,page+2); p++)
+    html += `<button class="page-btn ${p===page?'active':''}" onclick="searchTheme(${p})">${p}</button>`;
+  html += `<button class="page-btn" onclick="searchTheme(${page+1})" ${page===totalPages?'disabled':''}>→</button>`;
+  pEl.innerHTML = html;
+}
+
+// ── Réseau de collaborations ──────────────────────────────────────────────────
+async function buildNetwork() {
+  const btn = document.getElementById('btn-reseau');
+  const theme = document.getElementById('reseau-theme').value;
+  btn.disabled = true; btn.textContent = '⟳ Calcul en cours…';
+  document.getElementById('reseau-details').innerHTML = '';
+
+  const canvas = document.getElementById('network-canvas');
+  canvas.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--gris-moyen)"><div class="spinner" style="margin:0 auto 12px"></div><p>Analyse des co-publications dans HAL…</p></div><svg class="network-svg" id="network-svg"></svg><div class="network-tooltip" id="network-tooltip"></div>`;
+
+  // Récupérer les publications pour chaque labo
+  const laboData = {};
+  for (const labo of LABOS) {
+    try {
+      const url = `https://api.archives-ouvertes.fr/search/?q=${encodeURIComponent(theme)}&fq=structAcronym_s:${labo.acronym}&rows=50&wt=json&fl=halId_s,authFullName_s&sort=producedDate_tdate desc`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      laboData[labo.acronym] = { labo, count: data.response?.numFound||0, authors: new Set() };
+      (data.response?.docs||[]).forEach(d => (d.authFullName_s||[]).forEach(a => laboData[labo.acronym].authors.add(a)));
+    } catch(e) { laboData[labo.acronym] = { labo, count:0, authors: new Set() }; }
+  }
+
+  // Calculer les liens (auteurs en commun)
+  const links = [];
+  const laboKeys = Object.keys(laboData).filter(k => laboData[k].count > 0);
+  for (let i = 0; i < laboKeys.length; i++) {
+    for (let j = i+1; j < laboKeys.length; j++) {
+      const a = laboData[laboKeys[i]].authors;
+      const b = laboData[laboKeys[j]].authors;
+      const common = [...a].filter(x => b.has(x));
+      if (common.length > 0) links.push({ source: laboKeys[i], target: laboKeys[j], weight: common.length, authors: common });
+    }
+  }
+
+  renderNetwork(laboData, links, laboKeys);
+  btn.disabled = false; btn.textContent = '🔄 Recalculer';
+
+  // Résumé
+  const actifs = laboKeys.length;
+  const totalPubs = laboKeys.reduce((s,k) => s+laboData[k].count, 0);
+  document.getElementById('reseau-details').innerHTML = `
+    <div class="stats-bar">
+      <div class="stat-box"><div class="num">${actifs}</div><div class="lbl">laboratoires actifs</div></div>
+      <div class="stat-box"><div class="num">${totalPubs}</div><div class="lbl">publications trouvées</div></div>
+      <div class="stat-box"><div class="num">${links.length}</div><div class="lbl">liens de collaboration</div></div>
+    </div>
+    ${links.length > 0 ? `<div style="font-size:13px;color:var(--gris-moyen);margin-top:4px">💡 Les liens entre laboratoires sont calculés sur la base d'auteurs ayant publié dans plusieurs laboratoires.</div>` : ''}`;
+}
+
+function renderNetwork(laboData, links, activeKeys) {
+  const canvas = document.getElementById('network-canvas');
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+
+  // Positions en cercle
+  const positions = {};
+  activeKeys.forEach((k, i) => {
+    const angle = (2 * Math.PI * i / activeKeys.length) - Math.PI/2;
+    const r = Math.min(W, H) * 0.35;
+    positions[k] = { x: W/2 + r * Math.cos(angle), y: H/2 + r * Math.sin(angle) };
+  });
+
+  // SVG liens
+  const svg = document.getElementById('network-svg');
+  svg.innerHTML = links.map(l => {
+    const s = positions[l.source], t = positions[l.target];
+    if (!s || !t) return '';
+    const w = Math.min(1 + l.weight * 2, 8);
+    return `<line x1="${s.x}" y1="${s.y}" x2="${t.x}" y2="${t.y}" stroke="#e29fc5" stroke-width="${w}" stroke-opacity="0.6"/>`;
+  }).join('');
+
+  // Nœuds
+  const tooltip = document.getElementById('network-tooltip');
+  activeKeys.forEach(k => {
+    const d = laboData[k]; const pos = positions[k];
+    const size = Math.max(36, Math.min(64, 30 + d.count * 0.5));
+    const node = document.createElement('div');
+    node.className = 'network-node';
+    node.style.cssText = `left:${pos.x}px;top:${pos.y}px;width:${size}px;height:${size}px;background:${d.labo.univColor};font-size:${size>48?10:9}px`;
+    node.textContent = d.labo.sigle;
+    node.onmouseenter = (e) => {
+      const connectedLabos = links.filter(l => l.source===k||l.target===k).map(l => l.source===k?l.target:l.source);
+      tooltip.style.display = 'block';
+      tooltip.style.left = (pos.x + size/2 + 8) + 'px';
+      tooltip.style.top = (pos.y - 20) + 'px';
+      tooltip.innerHTML = `<strong style="color:var(--rose-vif)">${d.labo.sigle}</strong><br><span style="font-size:11px;color:#666">${d.labo.univ}</span><br><strong>${d.count}</strong> publications · <strong>${connectedLabos.length}</strong> collaboration(s)`;
+    };
+    node.onmouseleave = () => tooltip.style.display = 'none';
+    canvas.appendChild(node);
+  });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+buildLabosGrid();
+</script>
+</body>
+</html>
