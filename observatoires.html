@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CMQeICC — Observatoires des Industries Culturelles et Créatives</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+    :root {
+      --rose-vif: #e6007e;
+      --rose-doux: #e29fc5;
+      --rose-pale: #fce8f3;
+      --rose-tres-pale: #fdf4f9;
+      --gris-texte: #2d2d2d;
+      --gris-moyen: #666;
+      --gris-clair: #f5f5f5;
+      --blanc: #ffffff;
+      --bordure: #e8e8e8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--blanc);
+      color: var(--gris-texte);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--blanc);
+      border-bottom: 3px solid var(--rose-vif);
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(230,0,126,0.08);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--rose-vif);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--gris-texte); font-weight: 400; font-size: 13px; display: block; margin-top: -4px; letter-spacing: 0; }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gris-moyen);
+      text-decoration: none;
+      transition: all .2s;
+    }
+    nav a:hover { background: var(--rose-pale); color: var(--rose-vif); }
+    nav a.active { background: var(--rose-vif); color: white; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--rose-tres-pale) 0%, var(--blanc) 60%);
+      border-bottom: 1px solid var(--bordure);
+      padding: 56px 40px 48px;
+    }
+    .hero-inner { max-width: 1200px; margin: 0 auto; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--rose-pale);
+      color: var(--rose-vif);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gris-texte);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .hero h1 em { color: var(--rose-vif); font-style: normal; }
+    .hero p {
+      font-size: 16px;
+      color: var(--gris-moyen);
+      max-width: 620px;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    /* ── CARTES EXPLICATIVES ── */
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 40px;
+    }
+    .card {
+      background: var(--blanc);
+      border: 1px solid var(--bordure);
+      border-radius: 12px;
+      padding: 24px;
+      transition: box-shadow .2s;
+    }
+    .card:hover { box-shadow: 0 4px 20px rgba(230,0,126,0.08); }
+    .card-icon { font-size: 28px; margin-bottom: 12px; }
+    .card h3 { font-size: 15px; font-weight: 700; color: var(--gris-texte); margin-bottom: 8px; }
+    .card p { font-size: 13px; color: var(--gris-moyen); line-height: 1.5; }
+    .card .tag {
+      display: inline-block;
+      background: var(--rose-pale);
+      color: var(--rose-vif);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* ── SECTION OUTIL ── */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 40px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--gris-texte);
+      margin-bottom: 6px;
+    }
+    .section-desc { font-size: 13px; color: var(--gris-moyen); margin-bottom: 24px; }
+
+    /* ── GUIDE D'UTILISATION ── */
+    .guide {
+      background: var(--rose-tres-pale);
+      border: 1px solid var(--rose-doux);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .guide-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--rose-vif);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .guide ol { padding-left: 20px; }
+    .guide li { font-size: 13px; color: var(--gris-moyen); margin-bottom: 6px; line-height: 1.5; }
+    .guide li strong { color: var(--gris-texte); }
+
+    /* ── BOUTONS ── */
+    .btn-primary {
+      padding: 10px 24px;
+      background: var(--rose-vif);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-primary:hover { background: #c4006b; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-secondary {
+      padding: 10px 24px;
+      background: var(--blanc);
+      color: var(--rose-vif);
+      border: 2px solid var(--rose-doux);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-secondary:hover, .btn-secondary.active {
+      background: var(--rose-pale);
+      border-color: var(--rose-vif);
+    }
+
+    /* ── STATS ET COMPTEUR ── */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: var(--rose-tres-pale);
+      border: 1px solid var(--rose-doux);
+      border-radius: 8px;
+      padding: 12px 20px;
+      text-align: center;
+    }
+    .stat-box .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--rose-vif);
+    }
+    .stat-box .lbl {
+      font-size: 11px;
+      color: var(--gris-moyen);
+      margin-top: 2px;
+    }
+    .request-counter {
+      text-align: right;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--gris-moyen);
+    }
+    .request-counter .num {
+      color: var(--rose-vif);
+      font-weight: 700;
+    }
+
+    /* ── CARTE OBSERVATOIRE ── */
+    .obs-card {
+      background: var(--blanc);
+      border: 1px solid var(--bordure);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 12px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .obs-card:hover {
+      box-shadow: 0 4px 20px rgba(230,0,126,0.08);
+      border-color: var(--rose-doux);
+    }
+    .obs-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gris-texte);
+      margin-bottom: 8px;
+    }
+    .obs-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .obs-title a:hover { color: var(--rose-vif); }
+    .obs-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .obs-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-geo {
+      background: #e8f4f8;
+      color: #1a6b8a;
+    }
+    .badge-domain {
+      background: var(--rose-pale);
+      color: var(--rose-vif);
+    }
+    .obs-description {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .obs-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .obs-operator {
+      font-size: 12px;
+      color: var(--gris-moyen);
+      font-style: italic;
+    }
+    .obs-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--rose-vif);
+      text-decoration: none;
+    }
+    .obs-link:hover { text-decoration: underline; }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--bordure);
+      border-radius: 6px;
+      background: var(--blanc);
+      color: var(--gris-moyen);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .page-btn:hover, .page-btn.active {
+      background: var(--rose-vif);
+      color: white;
+      border-color: var(--rose-vif);
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ── ÉTAT VIDE ── */
+    .empty {
+      text-align: center;
+      padding: 48px;
+      color: var(--gris-moyen);
+    }
+    .empty .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gris-clair);
+      border-top: 1px solid var(--bordure);
+      padding: 24px 40px;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    footer p { font-size: 12px; color: var(--gris-moyen); }
+    footer a { color: var(--rose-vif); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .cards-row {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+      }
+      .hero, .section {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      header {
+        padding: 0 20px;
+      }
+      .hero h1 {
+        font-size: 26px;
+      }
+      nav a span {
+        display: none;
+      }
+      .filters-row {
+        flex-direction: column;
+      }
+      .filters-row > * {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">CMQeICC
+      <span>Carrefour des Métiers, Qualifications et emplois des ICC</span>
+    </a>
+    <nav>
+      <a href="index.html">Entreprises</a>
+      <a href="hal.html">Publications HAL</a>
+      <a href="chercheurs.html">Expertises de recherche</a>
+      <a href="observatoires.html" class="active">Observatoires ICC</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Ressources · Observatoires</div>
+    <h1>Annuaire des <em>Observatoires des Industries Culturelles et Créatives</em></h1>
+    <p>Explorez les observatoires spécialisés dans les ICC : statistiques, études sectorielles, veilles économiques et analyses territoriales en France et en Europe.</p>
+  </div>
+</section>
+
+<div class="cards-row">
+  <div class="card">
+    <div class="card-icon">🔍</div>
+    <div class="tag">Recherche</div>
+    <h3>Recherche avancée</h3>
+    <p>Utilisez les filtres par <strong>domaine</strong>, <strong>périmètre géographique</strong> ou <strong>mots-clés</strong> pour trouver l'observatoire qui vous intéresse.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📊</div>
+    <div class="tag">Données</div>
+    <h3>47 observatoires</h3>
+    <p><strong>47 observatoires recensés</strong> couvrant tous les secteurs des ICC : audiovisuel, musique, livre, spectacle vivant, architecture, design, etc.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📥</div>
+    <div class="tag">Export</div>
+    <h3>Exportez les résultats</h3>
+    <p>Téléchargez les observatoires filtrés au format <strong>CSV</strong> pour une utilisation hors ligne ou dans vos propres outils.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="guide">
+    <div class="guide-title">💡 Comment utiliser cet annuaire ?</div>
+    <ol>
+      <li><strong>Filtrez</strong> par domaine (ex: Audiovisuel, Musique) ou périmètre géographique (National, Régional, Europe).</li>
+      <li><strong>Recherchez</strong> par mots-clés dans les noms, descriptions ou opérateurs.</li>
+      <li><strong>Parcourez</strong> les cartes des observatoires correspondant à vos critères.</li>
+      <li><strong>Exportez</strong> les résultats en CSV pour les réutiliser dans vos propres analyses.</li>
+    </ol>
+  </div>
+
+  <div class="request-counter">
+    Nombre de recherches effectuées : <span class="num" id="request-count">0</span>
+  </div>
+
+  <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+    <input type="text" class="search-input" id="search-query" placeholder="Ex: audiovisuel, musique, PACA..." onkeydown="if(event.key==='Enter') searchObservatoires()"
+           style="flex: 1; min-width: 200px; padding: 10px 16px; border: 2px solid var(--bordure); border-radius: 6px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gris-texte);">
+    <select class="search-input" id="filter-domain" style="max-width: 200px; padding: 10px 16px; border: 2px solid var(--bordure); border-radius: 6px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gris-texte); cursor: pointer;">
+      <option value="">Tous les domaines</option>
+    </select>
+    <select class="search-input" id="filter-geo" style="max-width: 200px; padding: 10px 16px; border: 2px solid var(--bordure); border-radius: 6px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gris-texte); cursor: pointer;">
+      <option value="">Tous les périmètres</option>
+      <option value="National">National</option>
+      <option value="Régional">Régional</option>
+      <option value="Provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
+      <option value="Europe">Europe</option>
+      <option value="Royaume-Uni">Royaume-Uni</option>
+    </select>
+    <button class="btn-primary" onclick="searchObservatoires()">Rechercher</button>
+    <button class="btn-secondary" onclick="resetFilters()">Réinitialiser</button>
+    <button class="btn-secondary" onclick="exportToCSV()">📥 Exporter en CSV</button>
+  </div>
+
+  <div id="stats" class="stats-bar" style="display:none"></div>
+  <div id="results"></div>
+  <div id="pagination" class="pagination"></div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>© CMQeICC · Carrefour des Métiers, Qualifications et emplois des Industries Culturelles et Créatives · Provence-Alpes-Côte d'Azur</p>
+    <p>Données : Observatoires ICC (2026) · <span id="last-export"></span></p>
+  </div>
+</footer>
+
+<script>
+// =============================================
+// DONNÉES DES OBSERVATOIRES (47 entrées)
+// =============================================
+const OBSERVATOIRES = [
+  {
+    nom: "Observatoire de la création d'entreprise",
+    geo: "National",
+    domaine: ["Entreprise"],
+    description: "Études, suivi et statistiques de BPI France sur la création d'entreprise sur le territoire national.",
+    site: "https://bpifrance-creation.fr/observatoire",
+    operator: "BPI France"
+  },
+  {
+    nom: "Observatoire de l'IA",
+    geo: "National",
+    domaine: ["Intelligence Artificielle"],
+    description: "Observatoire de l'impact de l'IA sur les métiers de l'audiovisuel via des études territoriales.",
+    site: "https://www.cnc.fr/professionnels/observatoire-de-lintelligence-artificielle_2390539",
+    operator: "CNC (Centre National du Cinéma et de l'Image Animée)"
+  },
+  {
+    nom: "Études et statistiques de la DREETS PACA",
+    geo: "Régional",
+    domaine: ["Emploi", "Tous secteurs"],
+    description: "Statistiques de l'emploi sur le territoire régional.",
+    site: "https://paca.dreets.gouv.fr/Etudes-et-statistiques",
+    operator: "Ministère du Travail, du Plein Emploi et de l'Insertion"
+  },
+  {
+    nom: "Observatoire des politiques culturelles",
+    geo: "National",
+    domaine: ["Politique culturelle"],
+    description: "Mène des enquêtes, publie des analyses, forme aux métiers de la culture, organise des rencontres publiques, anime des coopérations territoriales et professionnelles.",
+    site: "https://www.observatoire-culture.net/",
+    operator: "Observatoire des politiques culturelles (association)"
+  },
+  {
+    nom: "Observatoire des territoires",
+    geo: "National",
+    domaine: ["Aménagement du territoire", "Politiques territoriales"],
+    description: "Rassemble, analyse et diffuse les données relatives aux dynamiques et aux disparités territoriales ainsi qu'aux politiques menées dans le champ de l'aménagement et du développement des territoires.",
+    site: "https://www.observatoire-des-territoires.gouv.fr/",
+    operator: "ANCT (Agence Nationale de la Cohésion des Territoires)"
+  },
+  {
+    nom: "Les Observatoires de l'AFDAS",
+    geo: "National;Provence-Alpes-Côte d'Azur",
+    domaine: ["Audiovisuel", "Spectacle vivant"],
+    description: "Observatoires des formations par territoire dans les filières gérées par cet OPCO (audiovisuel et spectacle vivant).",
+    site: "https://observatoires.afdas.com/",
+    operator: "AFDAS (OPCO des secteurs de la culture, des médias et du numérique)"
+  },
+  {
+    nom: "Observatoire européen de l'audiovisuel",
+    geo: "Europe",
+    domaine: ["Audiovisuel"],
+    description: "Observatoire du Conseil de l'Europe qui fournit des données et analyses sur le marché audiovisuel européen.",
+    site: "https://www.obs.coe.int/fr/web/observatoire",
+    operator: "Conseil de l'Europe (European Audiovisual Observatory)"
+  },
+  {
+    nom: "Observatoire de l'économie du secteur de la musique",
+    geo: "National",
+    domaine: ["Musique"],
+    description: "Études sectorielles de recensement des informations financières et commerciales du secteur de la musique.",
+    site: "https://cnm.fr/les-etudes/",
+    operator: "CNM (Centre National de la Musique)"
+  },
+  {
+    nom: "Eurostat",
+    geo: "Europe",
+    domaine: ["Tous secteurs"],
+    description: "Service statistique de l'Union européenne produisant des données sur l'économie, la société et l'environnement.",
+    site: "https://ec.europa.eu/eurostat",
+    operator: "Union Européenne (Commission Européenne)"
+  },
+  {
+    nom: "DEPS",
+    geo: "National",
+    domaine: ["Toutes les filières culturelles"],
+    description: "Département des études, de la prospective, des statistiques et de la documentation du Ministère de la Culture.",
+    site: "https://www.culture.gouv.fr/nous-connaitre/organisation-du-ministere/le-secretariat-general/departement-des-etudes-de-la-prospective-des-statistiques-et-de-la-documentation-deps",
+    operator: "Ministère de la Culture"
+  },
+  {
+    nom: "France Travail - Statistiques",
+    geo: "National",
+    domaine: ["Tous secteurs"],
+    description: "Études et statistiques des demandeurs d'emploi et du marché du travail.",
+    site: "https://www.francetravail.org/statistiques-analyses/",
+    operator: "France Travail"
+  },
+  {
+    nom: "INSEE",
+    geo: "National",
+    domaine: ["Tous secteurs"],
+    description: "Institut national de la statistique et des études économiques.",
+    site: "https://www.insee.fr/fr/accueil",
+    operator: "INSEE (Institut National de la Statistique et des Études Économiques)"
+  },
+  {
+    nom: "Observatoire des Tiers-Lieux",
+    geo: "National",
+    domaine: ["Tiers-Lieux"],
+    description: "Média, données, recherche et ressource. Mission : enrichir et partager la connaissance sur les tiers-lieux en France.",
+    site: "https://observatoire.francetierslieux.fr/",
+    operator: "Groupement d'Intérêt Publique France Tiers-Lieux"
+  },
+  {
+    nom: "Observatoire CAUE",
+    geo: "National",
+    domaine: ["Architecture", "Urbanisme", "Paysage"],
+    description: "Base de données illustrée sur l'architecture, l'urbanisme et le paysage en France.",
+    site: "https://www.caue-observatoire.fr/",
+    operator: "Fédération Nationale des CAUE (FnCAUE)"
+  },
+  {
+    nom: "Observatoire de la lecture publique",
+    geo: "National",
+    domaine: ["Livre", "Bibliothèques"],
+    description: "Créé en 2009 au sein du Service du livre et de la lecture. Mission : collecter, analyser et diffuser les données d'activité de l'ensemble des bibliothèques municipales, intercommunales et départementales (15 500 établissements).",
+    site: "https://www.culture.gouv.fr/thematiques/livre-et-lecture/pour-les-professionnels-des-bibliotheques/donnees-sur-les-bibliotheques/observatoire-de-la-lecture-publique",
+    operator: "Ministère de la Culture (Service du Livre et de la Lecture)"
+  },
+  {
+    nom: "Observatoire de l'Institut Français de la Mode",
+    geo: "National",
+    domaine: ["Mode", "Luxe", "Design", "Textile"],
+    description: "L'IFM est une grande école privée d'intérêt général. Expertise économique et marketing pour les industries de la mode, du luxe, du design et du textile.",
+    site: "https://www.ifmparis.fr/fr/expertise-economique-et-marketing",
+    operator: "Institut Français de la Mode (IFM)"
+  },
+  {
+    nom: "Observatoire des métiers de la filière Textile Mode Cuir",
+    geo: "National",
+    domaine: ["Mode", "Textile", "Cuir", "Maroquinerie"],
+    description: "Analyse des métiers et des compétences de la filière textile, mode, cuir et maroquinerie.",
+    site: "https://www.opco2i.fr/",
+    operator: "OPCO 2i (Opérateur de Compétences des Industries de l'Habillement, du Cuir et du Textile)"
+  },
+  {
+    nom: "Observatoire des métiers et branches AKTO",
+    geo: "National",
+    domaine: ["Filières métiers"],
+    description: "Observatoire des métiers et des certifications pour les branches professionnelles gérées par AKTO.",
+    site: "https://observatoire.akto.fr/",
+    operator: "AKTO"
+  },
+  {
+    nom: "Observatoire des compétences : textile, maroquinerie, métiers du meuble",
+    geo: "National",
+    domaine: ["Mode", "Artisanat", "Ameublement"],
+    description: "Observatoire des compétences pour les filières textile, maroquinerie et métiers du meuble.",
+    site: "https://observatoire-competences-industries.fr/",
+    operator: "OPCO 2i"
+  },
+  {
+    nom: "Observatoire de l'emploi du jeu vidéo",
+    geo: "National",
+    domaine: ["Jeu vidéo"],
+    description: "Analyse les métiers, l'emploi et les tendances du secteur du jeu vidéo en France.",
+    site: "https://emploi.afjv.com/observatoire/metiers.php",
+    operator: "AFJV (Association Française du Jeu Vidéo)"
+  },
+  {
+    nom: "Observatoire des maisons d'édition",
+    geo: "National",
+    domaine: ["Édition"],
+    description: "Analyse à partir de données publiques des maisons d'édition françaises spécialisées dans la fiction comme aide à la publication des jeunes auteurs.",
+    site: "https://coda.io/@codexplore/observatoire-des-maisons-deditions",
+    operator: "Codexplore"
+  },
+  {
+    nom: "Syndicat National de l'Édition - Chiffres",
+    geo: "National",
+    domaine: ["Édition"],
+    description: "Chiffres et statistiques du Syndicat National de l'Édition (SNE).",
+    site: "https://www.sne.fr/economie/chiffres-cles/",
+    operator: "Syndicat National de l'Édition (SNE)"
+  },
+  {
+    nom: "Observatoire des contrats audiovisuels",
+    geo: "National",
+    domaine: ["Audiovisuel"],
+    description: "Outil de veille sur les contrats audiovisuels pour les professionnels du secteur.",
+    site: "https://www.sacd.fr/fr/lopca-un-outil-de-veille-precieux-sur-les-contrats-audiovisuels",
+    operator: "SACD (Société des Auteurs et Compositeurs Dramatiques)"
+  },
+  {
+    nom: "Observatoire des Podcasts",
+    geo: "National",
+    domaine: ["Média", "Radio", "Presse", "Audio numérique"],
+    description: "Observatoire des tendances et données sur les podcasts en France.",
+    site: "https://www.arcom.fr/radio-et-audio-numerique/observatoire-des-podcasts",
+    operator: "ARCOM (Autorité de Régulation de la Communication Audiovisuelle et Numérique)"
+  },
+  {
+    nom: "Observatoire des Réseaux Sociaux d'Entreprises",
+    geo: "National",
+    domaine: ["Communication", "Réseaux sociaux"],
+    description: "Promouvoir le partage de bonnes pratiques avec une dynamique de groupe. Éclairer la transformation numérique des organisations.",
+    site: "http://www.esnbp.fr/",
+    operator: "Mediamétrie"
+  },
+  {
+    nom: "Observatoire de la communication publique digitale",
+    geo: "National",
+    domaine: ["Communication publique", "Numérique"],
+    description: "Observatoire de la communication publique numérique (#compublique).",
+    site: "https://myobservatoire.com/",
+    operator: "Association de communicants de divers services publics"
+  },
+  {
+    nom: "Observatoire de l'artisanat",
+    geo: "National",
+    domaine: ["Artisanat"],
+    description: "Études et analyses sur l'artisanat en France.",
+    site: "https://www.crma-centre.fr/article/etudes-de-l-observatoire-de-l-artisanat",
+    operator: "Chambre des Métiers et de l'Artisanat Centre-Val de Loire"
+  },
+  {
+    nom: "Observatoire de l'e-pub",
+    geo: "National",
+    domaine: ["Publicité", "Publicité digitale"],
+    description: "Étude initiée par le SRI en 2009, menée en partenariat avec l'UDECAM. Analyse 2 fois par an l'évolution et la répartition du chiffre d'affaires de la publicité digitale en France. Depuis 2019, réalisée par le cabinet Oliver Wyman.",
+    site: "https://www.sri-france.org/observatoire-epub/",
+    operator: "SRI (Syndicat des Régies Internet)"
+  },
+  {
+    nom: "Observatoire de la communication",
+    geo: "National",
+    domaine: ["Communication"],
+    description: "Observatoire de la filière communication en France.",
+    site: "https://filiere-communication.org/observatoire-de-la-communication/",
+    operator: "Association pour les actions de la filière communication"
+  },
+  {
+    nom: "Observatoire des métiers de la communication",
+    geo: "National",
+    domaine: ["Communication"],
+    description: "Observatoire des métiers et de l'emploi dans le secteur de la communication.",
+    site: "https://www.arces.com/fr/observatoire",
+    operator: "ARCES (Réseau des communicants de l'ESR)"
+  },
+  {
+    nom: "Observatoire marketing & com",
+    geo: "National",
+    domaine: ["Marketing", "Communication"],
+    description: "Faire un état des lieux du marché régional et comparer l'Occitanie avec d'autres régions françaises. Recueillir le sentiment des professionnels sur leur métier et son évolution.",
+    site: "https://www.clubdelacom.fr/observatoire/",
+    operator: "Club de la Com Occitanie"
+  },
+  {
+    nom: "Observatoire des Festivals",
+    geo: "National",
+    domaine: ["Spectacle vivant", "Festivals"],
+    description: "Étude de l'impact territorial et social des festivals en France.",
+    site: "https://www.francefestivals.com/observatoire",
+    operator: "France Festivals"
+  },
+  {
+    nom: "Observatoire des médias et de la presse",
+    geo: "National",
+    domaine: ["Média", "Presse"],
+    description: "Observatoire sous la forme d'un rapport annuel sur les chiffres de la presse et des médias.",
+    site: "https://www.acpm.fr/Les-chiffres/Observatoire-2025-de-l-ACPM-Syntheses-2024",
+    operator: "ACPM (Alliance pour les Chiffres de la Presse et des Médias)"
+  },
+  {
+    nom: "Observatoire des médias",
+    geo: "National",
+    domaine: ["Média", "Journalisme", "Presse"],
+    description: "Contributions bénévoles sur les médias, les journalistes, la presse et leurs audiences et auditoires.",
+    site: "https://www.observatoiredesmedias.com/",
+    operator: "Gilles Bruno (journaliste)"
+  },
+  {
+    nom: "Observatoire du patrimoine religieux",
+    geo: "National",
+    domaine: ["Patrimoine", "Patrimoine religieux"],
+    description: "Recensement de l'ensemble du patrimoine religieux sur le territoire national.",
+    site: "https://www.patrimoine-religieux.fr/",
+    operator: "Association Patrimoine Religieux"
+  },
+  {
+    nom: "Observatoire des publics et des pratiques culturelles",
+    geo: "National",
+    domaine: ["Public", "Pratiques culturelles"],
+    description: "Observatoire des publics et des pratiques culturelles en France.",
+    site: "https://observatoire-publics.univ-amu.fr/",
+    operator: "Laboratoire Mesopolhis - Aix-Marseille Université"
+  },
+  {
+    nom: "Observatoire de l'art contemporain",
+    geo: "National",
+    domaine: ["Art contemporain"],
+    description: "Décryptage, analyse et prospective sur l'art contemporain.",
+    site: "https://www.observatoire-art-contemporain.com/",
+    operator: "La revue Décryptage"
+  },
+  {
+    nom: "Observatoire de la liberté de création",
+    geo: "National",
+    domaine: ["Droit", "Culture", "Création"],
+    description: "Observatoire de la liberté de création artistique et culturelle en France.",
+    site: "https://libertedecreation.fr/",
+    operator: "Ligue des Droits de l'Homme (LDH)"
+  },
+  {
+    nom: "Observatoire du design urbain",
+    geo: "National",
+    domaine: ["Architecture", "Urbanisme", "Design"],
+    description: "Réflexion sur la ville centrée sur les usagers, les ressentis, l'humain.",
+    site: "https://obs-urbain.fr/",
+    operator: "Observatoire du Design Urbain (association)"
+  },
+  {
+    nom: "Observatoire photographique du territoire",
+    geo: "National",
+    domaine: ["Photographie", "Paysage", "Territoire"],
+    description: "Fond photographique permettant d'analyser les mécanismes et les facteurs de transformations ainsi que les rôles des acteurs impliqués.",
+    site: "https://objectif-paysages.developpement-durable.gouv.fr/observatoires-photographiques-des-paysages-a8.html",
+    operator: "Ministère de la Transition Écologique"
+  },
+  {
+    nom: "Observatoire de l'économie de l'architecture",
+    geo: "National",
+    domaine: ["Architecture", "Économie"],
+    description: "Analyse économique du secteur de l'architecture en France.",
+    site: "https://www.culture.gouv.fr/thematiques/architecture/architecture-et-cadre-de-vie/observatoire-de-l-economie-de-l-architecture",
+    operator: "Ministère de la Culture"
+  },
+  {
+    nom: "CCSI Data Observatory",
+    geo: "Europe",
+    domaine: ["Tous secteurs"],
+    description: "Observatoire de données du Centre pour la Science et la Société (CCSI).",
+    site: "https://ccsi.dataobservatory.eu/",
+    operator: "Centre for Cultural and Social Innovation (CCSI)"
+  },
+  {
+    nom: "Digital Music Observatory",
+    geo: "Europe",
+    domaine: ["Musique"],
+    description: "Observatoire automatisé open source offrant une vue complète de l'industrie musicale européenne.",
+    site: "https://openmusicobservatory.eu/",
+    operator: "Digital Music Observatory (consortium européen)"
+  },
+  {
+    nom: "Economics Observatory",
+    geo: "Royaume-Uni",
+    domaine: ["Tous secteurs"],
+    description: "Observatoire économique fournissant des analyses et insights sur l'économie britannique et mondiale.",
+    site: "https://www.economicsobservatory.com/",
+    operator: "The Economics Observatory (UK)"
+  },
+  {
+    nom: "Observatoire des ICC - Région Sud",
+    geo: "Provence-Alpes-Côte d'Azur",
+    domaine: ["Industries Culturelles et Créatives"],
+    description: "Observatoire des Industries Culturelles et Créatives pour la région Provence-Alpes-Côte d'Azur.",
+    site: "https://campus-industriesculturellescreatives-sud.fr/observatoire-des-icc/",
+    operator: "Campus des Métiers et des Qualifications d'excellence Industries Culturelles et Créatives Sud"
+  },
+  {
+    nom: "CIRCODATA",
+    geo: "National",
+    domaine: ["Arts du cirque"],
+    description: "Base de données et ressources sur les arts du cirque en France.",
+    site: "https://cnac.fr/fr/ressources/circodata",
+    operator: "CNAC (Centre National des Arts du Cirque)"
+  }
+];
+
+// =============================================
+// VARIABLES GLOBALES
+// =============================================
+let currentPage = 1;
+const ROWS_PER_PAGE = 10;
+let filteredObservatoires = [...OBSERVATOIRES];
+let requestCount = 0;
+
+// =============================================
+// INITIALISATION
+// =============================================
+function init() {
+  // Charger le compteur de requêtes depuis localStorage
+  const savedCount = localStorage.getItem('observatoiresRequestCount');
+  if (savedCount) {
+    requestCount = parseInt(savedCount);
+    document.getElementById('request-count').textContent = requestCount;
+  }
+
+  // Remplir le filtre par domaine avec les valeurs uniques
+  const allDomains = new Set();
+  OBSERVATOIRES.forEach(obs => {
+    (obs.domaine || []).forEach(d => {
+      if (d.trim()) allDomains.add(d.trim());
+    });
+  });
+  const domainSelect = document.getElementById('filter-domain');
+  Array.from(allDomains).sort().forEach(domain => {
+    const option = document.createElement('option');
+    option.value = domain;
+    option.textContent = domain;
+    domainSelect.appendChild(option);
+  });
+
+  // Recherche initiale
+  searchObservatoires();
+}
+
+// =============================================
+// RECHERCHE ET FILTRAGE
+// =============================================
+function searchObservatoires(page = 1) {
+  currentPage = page;
+  const query = document.getElementById('search-query').value.toLowerCase();
+  const domainFilter = document.getElementById('filter-domain').value;
+  const geoFilter = document.getElementById('filter-geo').value;
+
+  // Incrémenter et sauvegarder le compteur
+  requestCount++;
+  localStorage.setItem('observatoiresRequestCount', requestCount);
+  document.getElementById('request-count').textContent = requestCount;
+
+  filteredObservatoires = OBSERVATOIRES.filter(obs => {
+    // Filtre par domaine
+    if (domainFilter && !obs.domaine?.includes(domainFilter)) {
+      return false;
+    }
+    // Filtre géographique
+    if (geoFilter) {
+      const geoValues = obs.geo.split(';').map(g => g.trim());
+      if (!geoValues.includes(geoFilter)) {
+        return false;
+      }
+    }
+    // Recherche libre
+    if (query) {
+      const searchableText = [
+        obs.nom.toLowerCase(),
+        obs.description.toLowerCase(),
+        ...(obs.domaine || []).map(d => d.toLowerCase()),
+        obs.operator.toLowerCase(),
+        obs.geo.toLowerCase()
+      ].join(' ');
+      return searchableText.includes(query);
+    }
+    return true;
+  });
+
+  renderResults();
+  renderStats();
+  renderPagination();
+}
+
+// =============================================
+// EXPORT CSV
+// =============================================
+function exportToCSV() {
+  const headers = ['Nom', 'Périmètre géographique', 'Domaine', 'Description', 'URL', 'Opérateur'];
+  const csvRows = [];
+
+  // Ajouter l'en-tête
+  csvRows.push(headers.join(';'));
+
+  // Ajouter les données filtrées
+  filteredObservatoires.forEach(obs => {
+    const row = [
+      `"${obs.nom.replace(/"/g, '""')}"`,
+      `"${obs.geo.replace(/"/g, '""')}"`,
+      `"${(obs.domaine || []).join(';').replace(/"/g, '""')}"`,
+      `"${obs.description.replace(/"/g, '""')}"`,
+      `"${obs.site.replace(/"/g, '""')}"`,
+      `"${obs.operator.replace(/"/g, '""')}"`
+    ];
+    csvRows.push(row.join(';'));
+  });
+
+  const csvContent = csvRows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `observatoires_icc_export_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  // Mettre à jour la date du dernier export
+  const now = new Date();
+  document.getElementById('last-export').textContent = `Dernier export : ${now.toLocaleDateString('fr-FR')} à ${now.toLocaleTimeString('fr-FR')}`;
+}
+
+// =============================================
+// RENDU DES RÉSULTATS
+// =============================================
+function renderResults() {
+  const resultsDiv = document.getElementById('results');
+  const start = (currentPage - 1) * ROWS_PER_PAGE;
+  const end = start + ROWS_PER_PAGE;
+  const pageResults = filteredObservatoires.slice(start, end);
+
+  if (pageResults.length === 0) {
+    resultsDiv.innerHTML = `
+      <div class="empty">
+        <div class="icon">🔍</div>
+        <p>Aucun observatoire trouvé</p>
+        <p style="font-size:12px;margin-top:6px">Essayez d'autres mots-clés ou élargissez les filtres</p>
+      </div>`;
+    return;
+  }
+
+  resultsDiv.innerHTML = pageResults.map(renderObservatoireCard).join('');
+}
+
+function renderObservatoireCard(obs) {
+  const domains = (obs.domaine || [])
+    .filter(d => d.trim())
+    .map(d => `<span class="obs-badge badge-domain">${d.trim()}</span>`)
+    .join('');
+
+  const geoBadge = obs.geo ?
+    `<span class="obs-badge badge-geo">📍 ${obs.geo}</span>` : '';
+
+  const siteLink = obs.site ?
+    `<a href="${obs.site}" target="_blank" class="obs-link">→ Visiter le site</a>` : '';
+
+  return `
+    <div class="obs-card">
+      <div class="obs-title">
+        <a href="${obs.site || '#'}" target="${obs.site ? '_blank' : ''}">${obs.nom || 'Observatoire non nommé'}</a>
+      </div>
+      <div class="obs-meta">
+        ${geoBadge}
+        ${domains}
+      </div>
+      ${obs.description ?
+        `<div class="obs-description">${obs.description}</div>` : ''}
+      <div class="obs-footer">
+        <div class="obs-operator">${obs.operator || 'Non spécifié'}</div>
+        ${siteLink}
+      </div>
+    </div>
+  `;
+}
+
+// =============================================
+// STATISTIQUES ET PAGINATION
+// =============================================
+function renderStats() {
+  const statsDiv = document.getElementById('stats');
+  statsDiv.style.display = 'flex';
+  statsDiv.innerHTML = `
+    <div class="stat-box">
+      <div class="num">${filteredObservatoires.length.toLocaleString('fr-FR')}</div>
+      <div class="lbl">observatoires trouvés</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">${Math.ceil(filteredObservatoires.length / ROWS_PER_PAGE).toLocaleString('fr-FR')}</div>
+      <div class="lbl">pages de résultats</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">${currentPage}</div>
+      <div class="lbl">page actuelle</div>
+    </div>
+  `;
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(filteredObservatoires.length / ROWS_PER_PAGE);
+  const paginationDiv = document.getElementById('pagination');
+
+  if (totalPages <= 1) {
+    paginationDiv.innerHTML = '';
+    return;
+  }
+
+  let html = `
+    <button class="page-btn" onclick="searchObservatoires(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>←</button>
+  `;
+
+  const startPage = Math.max(1, currentPage - 2);
+  const endPage = Math.min(totalPages, currentPage + 2);
+
+  if (startPage > 1) {
+    html += `<button class="page-btn" onclick="searchObservatoires(1)">1</button>`;
+    if (startPage > 2) html += `<span style="padding:6px">…</span>`;
+  }
+
+  for (let p = startPage; p <= endPage; p++) {
+    html += `
+      <button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="searchObservatoires(${p})">${p}</button>
+    `;
+  }
+
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) html += `<span style="padding:6px">…</span>`;
+    html += `<button class="page-btn" onclick="searchObservatoires(${totalPages})">${totalPages}</button>`;
+  }
+
+  html += `
+    <button class="page-btn" onclick="searchObservatoires(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>→</button>
+  `;
+
+  paginationDiv.innerHTML = html;
+}
+
+// =============================================
+// UTILITAIRES
+// =============================================
+function resetFilters() {
+  document.getElementById('search-query').value = '';
+  document.getElementById('filter-domain').value = '';
+  document.getElementById('filter-geo').value = '';
+  searchObservatoires(1);
+}
+
+// =============================================
+// DÉMARRAGE
+// =============================================
+window.onload = init;
+</script>
+</body>
+</html>
