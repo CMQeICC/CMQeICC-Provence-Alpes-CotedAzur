@@ -171,6 +171,24 @@
     .guide li { font-size: 13px; color: var(--gris-moyen); margin-bottom: 6px; line-height: 1.5; }
     .guide li strong { color: var(--gris-texte); }
 
+    /* NOUVEAU : Encart pour proposer un observatoire */
+    .suggestion-box {
+      background: var(--rose-tres-pale);
+      border: 1px solid var(--rose-doux);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .suggestion-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--rose-vif);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     /* ── BOUTONS ── */
     .btn-primary {
       padding: 10px 24px;
@@ -422,7 +440,7 @@
   <div class="hero-inner">
     <div class="hero-tag">Ressources · Observatoires</div>
     <h1>Annuaire des <em>Observatoires des Industries Culturelles et Créatives</em></h1>
-    <p>Explorez les observatoires spécialisés dans les ICC : statistiques, études sectorielles, veilles économiques et analyses territoriales en France et en Europe.</p>
+    <p>Explorez les observatoires spécialisés dans les ICC : statistiques, études sectorielles, veilles économiques et analyses territoriales en France et en Europe. <strong>Ce travail a vocation à être complété : si un observatoire n'est pas recensé, veuillez nous le signaler.</strong></p>
   </div>
 </section>
 
@@ -436,8 +454,8 @@
   <div class="card">
     <div class="card-icon">📊</div>
     <div class="tag">Données</div>
-    <h3>47 observatoires</h3>
-    <p><strong>47 observatoires recensés</strong> couvrant tous les secteurs des ICC : audiovisuel, musique, livre, spectacle vivant, architecture, design, etc.</p>
+    <h3>48 observatoires</h3>
+    <p><strong>48 observatoires recensés</strong> couvrant tous les secteurs des ICC : audiovisuel, musique, livre, spectacle vivant, architecture, design, etc.</p>
   </div>
   <div class="card">
     <div class="card-icon">📥</div>
@@ -456,6 +474,13 @@
       <li><strong>Parcourez</strong> les cartes des observatoires correspondant à vos critères.</li>
       <li><strong>Exportez</strong> les résultats en CSV pour les réutiliser dans vos propres analyses.</li>
     </ol>
+  </div>
+
+  <!-- NOUVEL ENCART POUR PROPOSER UN OBSERVATOIRE -->
+  <div class="suggestion-box">
+    <div class="suggestion-title">📧 Un observatoire manque à l'appel ?</div>
+    <p style="font-size: 13px; color: var(--gris-moyen); margin-bottom: 12px;">Si vous connaissez un observatoire qui n'est pas référencé ici, n'hésitez pas à nous le signaler.</p>
+    <a href="mailto:cmqeicc@gmail.com?subject=Ajout%20d'un%20observatoire%20ICC&body=Bonjour,%0A%0AJe%20vous%20propose%20d'ajouter%20le%20suivant%20observatoire%20à%20votre%20annuaire:%0A%0ANom:%0AURL:%0ADomaine:%0APérimètre%20géographique:%0AOpérateur:%0A%0ADescription:%0A%0AMerci," class="btn-secondary">✉️ Proposer un observatoire</a>
   </div>
 
   <div class="request-counter">
@@ -495,7 +520,7 @@
 
 <script>
 // =============================================
-// DONNÉES DES OBSERVATOIRES (47 entrées)
+// DONNÉES DES OBSERVATOIRES (48 entrées)
 // =============================================
 const OBSERVATOIRES = [
   {
@@ -865,6 +890,14 @@ const OBSERVATOIRES = [
     description: "Base de données et ressources sur les arts du cirque en France.",
     site: "https://cnac.fr/fr/ressources/circodata",
     operator: "CNAC (Centre National des Arts du Cirque)"
+  },
+  {
+    nom: "Études et statistiques de la CSFI",
+    geo: "National",
+    domaine: ["Musique", "Facture instrumentale"],
+    description: "Publie des études et statistiques sur le secteur de la facture instrumentale en France, porté par la Chambre Syndicale de la Facture Instrumentale.",
+    site: "https://www.csfi-musique.fr/les-publications-de-la-csfi/les-enquetes-et-sondages",
+    operator: "Chambre Syndicale de la Facture Instrumentale (CSFI)"
   }
 ];
 
